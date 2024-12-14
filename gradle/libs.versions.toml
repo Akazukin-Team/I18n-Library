@@ -2,7 +2,7 @@
 #App deps
 akz = "1.0.0"
 lombok = "1.18.36"
-gson = "2.10.1"
+gson = "2.11.0"
 doma = "3.1.0"
 slf4j = "2.1.0-alpha1"
 jetbrains-annotation = "26.0.1"
