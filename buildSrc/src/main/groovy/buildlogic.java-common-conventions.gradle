@@ -15,14 +15,19 @@ repositories {
     }
     mavenCentral()
 
-    mavenLocal()
     maven {
         content {
             includeGroup "org.akazukin"
         }
         name = "GPR(Util-Library)"
         url = uri("https://maven.pkg.github.com/Akazukin-Team/Util-Library")
+
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GPR_USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("GPR_TOKEN")
+        }
     }
+    mavenLocal()
 }
 
 dependencies {
