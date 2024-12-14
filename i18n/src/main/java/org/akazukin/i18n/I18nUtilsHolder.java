@@ -22,6 +22,23 @@ public class I18nUtilsHolder implements Reloadable {
     }
 
     @Nullable
+    public String get(final I18n i18n) {
+        for (final I18nUtils i18nUtil : this.i18nUtils) {
+            final String result = i18n.build(i18nUtil);
+            if (result != null) {
+                return result;
+            }
+        }
+
+        return null;
+    }
+
+    @Nullable
+    public String get(final String locale, final I18n i18n) {
+        return this.get(locale, i18n, true);
+    }
+
+    @Nullable
     public String get(final String locale, final I18n i18n, final boolean defaultLocale) {
         for (final I18nUtils i18nUtil : this.i18nUtils) {
             final String result = i18n.build(i18nUtil, locale);
