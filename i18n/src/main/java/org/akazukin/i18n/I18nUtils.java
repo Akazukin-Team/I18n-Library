@@ -50,7 +50,7 @@ public class I18nUtils implements Reloadable {
         this.domain = domain;
         this.appId = appId;
         this.dataFolder = dataFolder;
-        this.defaultLocale = defaultLocale;
+        this.setDefaultLocale(defaultLocale);
         this.setLocales(locales);
 
         this.load();
@@ -60,7 +60,7 @@ public class I18nUtils implements Reloadable {
         for (final String locale : this.locales) {
             final String defaultDir = "assets/" + this.domain.replace(".", "/") + "/" + this.appId + "/";
 
-            final String langsFile = "langs/" + locale.toLowerCase() + ".lang";
+            final String langsFile = "langs/" + locale + ".lang";
             final File file = new File(this.dataFolder, langsFile);
 
             final Properties props = new Properties();
@@ -105,6 +105,10 @@ public class I18nUtils implements Reloadable {
         this.locales = Arrays.stream(locales).map(String::toLowerCase).toArray(String[]::new);
     }
 
+    public void setDefaultLocale(@NotNull final String defaultLocale) {
+        this.defaultLocale = defaultLocale.toLowerCase();
+    }
+
     @Override
     public void reload() {
         this.language.clear();
@@ -127,9 +131,7 @@ public class I18nUtils implements Reloadable {
     }
 
     @Nullable
-    public String get(@NotNull String locale, @NotNull final String id, @NotNull final Object... args) {
-        locale = locale.toLowerCase();
-
+    public String get(@NotNull final String locale, @NotNull final String id, @NotNull final Object... args) {
         if (!this.language.containsKey(locale)) {
             return null;
         }
