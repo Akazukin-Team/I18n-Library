@@ -14,7 +14,15 @@ repositories {
         url = "https://jitpack.io/"
     }
     mavenCentral()
+
     mavenLocal()
+    maven {
+        content {
+            includeGroup "org.akazukin"
+        }
+        name = "GPR(Util-Library)"
+        url = uri("https://maven.pkg.github.com/Akazukin-Team/Util-Library")
+    }
 }
 
 dependencies {
