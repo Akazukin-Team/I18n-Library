@@ -23,8 +23,8 @@ repositories {
         url = uri("https://maven.pkg.github.com/Akazukin-Team/Util-Library")
 
         credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("GPR_USERNAME")
-            password = project.findProperty("gpr.key") ?: System.getenv("GPR_TOKEN")
+            username = project.findProperty("gpr.user") ?: System.getenv("GPR_USERNAME") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GPR_TOKEN") ?: System.getenv("GITHUB_TOKEN")
         }
     }
     mavenLocal()
