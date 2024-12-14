@@ -1,3 +1,3 @@
-# Akazukin Utils Library
+# Akazukin Internationalization Library
 
-Utils, I18n, Event, Streamなどを提供するライブラリ
+国際化用モジュールを提供するライブラリ
