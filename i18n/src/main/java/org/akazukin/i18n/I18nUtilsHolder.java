@@ -1,8 +1,5 @@
 package org.akazukin.i18n;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,19 +7,22 @@ import lombok.experimental.FieldDefaults;
 import org.akazukin.util.ext.Reloadable;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 @Setter
 @Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class I18nUtilsHolder implements Reloadable {
-    List<I18nUtils> i18nUtils;
+    List<I18nUtils> i18nUtils = new CopyOnWriteArrayList<>();
 
     public I18nUtilsHolder(final I18nUtils... i18nUtils) {
-        this.i18nUtils = new CopyOnWriteArrayList<>();
         this.i18nUtils.addAll(Arrays.asList(i18nUtils));
     }
 
     @Nullable
-    public String get(final I18n i18n) {
+    public String get(final I18nObject i18n) {
         for (final I18nUtils i18nUtil : this.i18nUtils) {
             final String result = i18n.build(i18nUtil);
             if (result != null) {
@@ -34,12 +34,12 @@ public class I18nUtilsHolder implements Reloadable {
     }
 
     @Nullable
-    public String get(final String locale, final I18n i18n) {
+    public String get(final String locale, final I18nObject i18n) {
         return this.get(locale, i18n, true);
     }
 
     @Nullable
-    public String get(final String locale, final I18n i18n, final boolean defaultLocale) {
+    public String get(final String locale, final I18nObject i18n, final boolean defaultLocale) {
         for (final I18nUtils i18nUtil : this.i18nUtils) {
             final String result = i18n.build(i18nUtil, locale);
             if (result != null) {

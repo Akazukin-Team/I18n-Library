@@ -1,5 +1,14 @@
 package org.akazukin.i18n;
 
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
+import org.akazukin.util.ext.Reloadable;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,14 +21,6 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.FieldDefaults;
-import lombok.extern.slf4j.Slf4j;
-import org.akazukin.util.ext.Reloadable;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Slf4j
@@ -57,7 +58,9 @@ public class I18nUtils implements Reloadable {
     }
 
     private void load() {
-        for (final String locale : this.locales) {
+        for (String locale : this.locales) {
+            locale = locale.toLowerCase();
+
             final String defaultDir = "assets/" + this.domain.replace(".", "/") + "/" + this.appId + "/";
 
             final String langsFile = "langs/" + locale + ".lang";
@@ -132,12 +135,8 @@ public class I18nUtils implements Reloadable {
 
     @Nullable
     public String get(@NotNull final String locale, @NotNull final String id, @NotNull final Object... args) {
-        if (!this.language.containsKey(locale)) {
-            return null;
-        }
-
-        final Properties localeSet = this.language.get(locale);
-        if (!localeSet.containsKey(id)) {
+        final Properties localeSet = this.language.get(locale.toLowerCase());
+        if (localeSet == null) {
             return null;
         }
 
