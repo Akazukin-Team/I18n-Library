@@ -1,11 +1,6 @@
-import java.nio.charset.StandardCharsets
-
 plugins {
     id 'java-library'
-    id "com.github.ben-manes.versions"
 }
-
-int javaVersion = 8
 
 configurations {
     include
@@ -19,44 +14,53 @@ repositories {
         url = "https://jitpack.io/"
     }
     mavenCentral()
-
-    maven {
-        content {
-            includeGroup "org.akazukin"
-        }
-        name = "GPR(Util-Library)"
-        url = uri("https://maven.pkg.github.com/Akazukin-Team/Util-Library")
-
-        credentials {
-            username = project.findProperty("gpr.user") ?: System.getenv("GPR_USERNAME") ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.key") ?: System.getenv("GPR_TOKEN") ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
     mavenLocal()
+    maven {
+        name = 'AkazukinTeam-Utilities-GPR'
+        url = 'https://maven.pkg.github.com/Akazukin-Team/Utils'
+    }
 }
 
 dependencies {
+    compileOnly libs.lombok
+    annotationProcessor libs.lombok
+
+    compileOnly libs.jetbrains.annotations
+    annotationProcessor libs.jetbrains.annotations
+
     testImplementation libs.junit.jupiter
     testRuntimeOnly libs.junit.platform
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = StandardCharsets.UTF_8
-
-    it.options.compilerArgs << '-Xlint'
-    it.options.compilerArgs << '-Xmaxerrs' << '10000'
-    it.options.compilerArgs << '-Xmaxwarns' << '10000'
-    it.options.compilerArgs << '-Xdiags:verbose'
-
-    it.sourceCompatibility = it.targetCompatibility = javaVersion
+    options.encoding = 'UTF-8'
+    options.compilerArgs << '-Xlint'
+    options.compilerArgs << '-Xmaxerrs' << '10000'
+    options.compilerArgs << '-Xmaxwarns' << '10000'
+    options.compilerArgs << '-Xdiags:verbose'
 }
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
+java.toolchain.languageVersion = JavaLanguageVersion.of(properties.getOrDefault("java_version", 8) as int)
+compileJava.sourceCompatibility = compileJava.targetCompatibility = properties.getOrDefault("java_version", 8)
 
-tasks.named('test') {
-    useJUnitPlatform()
+jar {
+    dependsOn(processResources)
+
+    enabled = true
 }
 
-tasks.withType(AbstractCopyTask).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+tasks.withType(Copy).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(Tar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(Zip).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+tasks.withType(Jar).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
 }
