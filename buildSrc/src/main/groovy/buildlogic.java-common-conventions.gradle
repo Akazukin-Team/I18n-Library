@@ -16,18 +16,12 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven {
-        name = 'AkazukinTeam-Utilities-GPR'
-        url = 'https://maven.pkg.github.com/Akazukin-Team/Utils'
+        name = 'AkazukinTeam-Repo'
+        url = 'https://maven.akazukin.org/refer/maven-releases/'
     }
 }
 
 dependencies {
-    compileOnly libs.lombok
-    annotationProcessor libs.lombok
-
-    compileOnly libs.jetbrains.annotations
-    annotationProcessor libs.jetbrains.annotations
-
     testImplementation libs.junit.jupiter
     testRuntimeOnly libs.junit.platform
 }
@@ -45,22 +39,8 @@ compileJava.sourceCompatibility = compileJava.targetCompatibility = properties.g
 
 jar {
     dependsOn(processResources)
-
-    enabled = true
 }
 
-tasks.withType(Copy).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType(Tar).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType(Zip).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-}
-
-tasks.withType(Jar).configureEach {
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+tasks.withType(AbstractCopyTask).configureEach {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
