@@ -8,15 +8,3 @@ dependencies {
     api libs.akz
     api libs.slf4j
 }
-
-tasks.withType(AbstractPublishToMaven).configureEach {
-    dependsOn("jar")
-}
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-}
