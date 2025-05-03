@@ -1,6 +1,6 @@
 [versions]
 #App deps
-akz = "2.0.0"
+akz = "3.0.0"
 lombok = "1.18.36"
 slf4j = "2.1.0-alpha1"
 jetbrains-annotation = "26.0.2"
