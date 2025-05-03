@@ -203,7 +203,7 @@ public class I18nUtils implements Reloadable {
      * @return the localized string, or null if it could not be retrieved for the given locale and fallback logic
      */
     @Nullable
-    private String get(@NotNull final String locale, @NotNull final String id, @NotNull final Object... args) {
+    private String getInternal(@NotNull final String locale, @NotNull final String id, @NotNull final Object... args) {
         final Properties localeSet = this.language.get(locale.toLowerCase());
         if (localeSet == null) {
             return null;
@@ -216,7 +216,7 @@ public class I18nUtils implements Reloadable {
 
         final Matcher m2 = I18nUtils.REGEX_I18N.matcher(i18n);
         if (m2.find()) {
-            i18n = m2.replaceAll(this.get(locale, m2.group().substring(2, m2.group().length() - 1)));
+            i18n = m2.replaceAll(this.getInternal(locale, m2.group().substring(2, m2.group().length() - 1)));
         }
 
         for (int i = 0; i < args.length; i++) {
@@ -254,11 +254,11 @@ public class I18nUtils implements Reloadable {
      */
     @Nullable
     public String get(@NotNull final String locale, final boolean defaultLocale, @NotNull final I18n i18n) {
-        final String result = this.get(locale, i18n);
+        final String result = this.getInternal(locale, i18n.getId(), i18n.getArgs());
         if (result != null || !defaultLocale) {
             return result;
         }
-        return this.get(this.defaultLocale, i18n);
+        return this.getInternal(this.defaultLocale, i18n.getId(), i18n.getArgs());
     }
 
     /**
