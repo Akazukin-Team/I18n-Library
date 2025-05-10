@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
-import org.akazukin.util.utils.ListUtils;
+import org.akazukin.util.utils.ArrayUtils;
 
 import java.util.Arrays;
 
@@ -249,17 +249,16 @@ public final class I18nHolder implements I18nObject {
      */
     @Override
     public String build(final I18nUtils i18nUtils, final String locale, final boolean defaultLocale) {
-        return (this.first != null ? this.first : (this.firstI18n != null ? this.firstI18n.build(i18nUtils, locale, defaultLocale) :
-                "")) +
-                ListUtils.join(
-                        (this.concat != null ? this.concat : (this.concatI18n != null ? this.concatI18n.build(i18nUtils, locale, defaultLocale) : "")),
-                        Arrays
-                                .stream(this.i18ns)
-                                .map(i18n ->
-                                        (this.before != null ? this.before : (this.beforeI18n != null ? this.beforeI18n.build(i18nUtils, locale, defaultLocale) : "")) +
-                                                i18n.build(i18nUtils, locale, defaultLocale)
-                                                + (this.after != null ? this.after : (this.afterI18n != null ? this.afterI18n.build(i18nUtils, locale, defaultLocale) : "")))
-                                .toArray(String[]::new)) +
-                (this.last != null ? this.last : (this.lastI18n != null ? this.lastI18n.build(i18nUtils, locale, defaultLocale) : ""));
+        return (this.first != null ? this.first : (this.firstI18n != null ? this.firstI18n.build(i18nUtils, locale, defaultLocale) : ""))
+                + ArrayUtils.join(
+                (this.concat != null ? this.concat : (this.concatI18n != null ? this.concatI18n.build(i18nUtils, locale, defaultLocale) : "")),
+                Arrays
+                        .stream(this.i18ns)
+                        .map(i18n ->
+                                (this.before != null ? this.before : (this.beforeI18n != null ? this.beforeI18n.build(i18nUtils, locale, defaultLocale) : "")) +
+                                        i18n.build(i18nUtils, locale, defaultLocale)
+                                        + (this.after != null ? this.after : (this.afterI18n != null ? this.afterI18n.build(i18nUtils, locale, defaultLocale) : "")))
+                        .toArray(String[]::new))
+                + (this.last != null ? this.last : (this.lastI18n != null ? this.lastI18n.build(i18nUtils, locale, defaultLocale) : ""));
     }
 }
