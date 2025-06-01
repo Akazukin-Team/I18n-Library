@@ -1,12 +1,13 @@
 plugins {
-    id 'buildlogic.java-common-conventions'
     id 'java'
+
+    id 'buildlogic.java-common-conventions'
 }
 
 testing {
     suites {
         test {
-            useJUnitJupiter('5.10.3')
+            useJUnitJupiter('5.13.0-M3')
         }
     }
 }
