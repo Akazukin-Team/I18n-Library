@@ -1,10 +1,9 @@
 plugins {
     id 'buildlogic.java-module-conventions'
-    id 'buildlogic.java-manifest-conventions'
-    id 'buildlogic.java-maven-conventions'
+    id 'buildlogic.java-publish-conventions'
 }
 
 dependencies {
-    api libs.akz
+    api libs.akz.util
     api libs.slf4j
 }
