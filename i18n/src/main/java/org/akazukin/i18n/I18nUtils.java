@@ -43,8 +43,7 @@ import java.util.regex.Pattern;
 @Getter
 @Setter
 public class I18nUtils implements Reloadable {
-    private static final Pattern REGEX_I18N = Pattern.compile("<\\$[a-zA-Z0-9.]+>");
-    private static final Pattern REGEX_ARGS = Pattern.compile("<args\\[[0-9]+]>");
+    private static final Pattern REGEX_I18N = Pattern.compile("<\\$([a-zA-Z0-9.]+)>");
 
     @NotNull
     final Map<String, Properties> language = new ConcurrentHashMap<>();
@@ -203,7 +202,7 @@ public class I18nUtils implements Reloadable {
      * @return the localized string, or null if it could not be retrieved for the given locale and fallback logic
      */
     @Nullable
-    private String getInternal(@NotNull final String locale, @NotNull final String id, @NotNull final Object... args) {
+    private String getInternal(@NotNull final String locale, @NotNull final String id, @Nullable final Object... args) {
         final Properties localeSet = this.language.get(locale.toLowerCase());
         if (localeSet == null) {
             return null;
@@ -213,10 +212,11 @@ public class I18nUtils implements Reloadable {
         if (i18n == null) {
             return null;
         }
+        i18n = i18n.replace("\\n", "\n");
 
-        final Matcher m2 = I18nUtils.REGEX_I18N.matcher(i18n);
-        if (m2.find()) {
-            i18n = m2.replaceAll(this.getInternal(locale, m2.group().substring(2, m2.group().length() - 1)));
+        Matcher m;
+        while ((m = I18nUtils.REGEX_I18N.matcher(i18n)).find()) {
+            i18n = m.replaceFirst(String.valueOf(this.getInternal(locale, m.group(1))));
         }
 
         for (int i = 0; i < args.length; i++) {
@@ -224,18 +224,12 @@ public class I18nUtils implements Reloadable {
                 continue;
             }
 
-            if (args[i] instanceof I18nObject) {
+            if (args[i] != null && args[i] instanceof I18nObject) {
                 args[i] = ((I18nObject) args[i]).build(this, locale);
-            }
-
-            if (args[i] == null) {
-                continue;
             }
 
             i18n = i18n.replace("<args[" + i + "]>", String.valueOf(args[i]));
         }
-
-        i18n = i18n.replace("\\n", "\n");
 
         return i18n;
     }

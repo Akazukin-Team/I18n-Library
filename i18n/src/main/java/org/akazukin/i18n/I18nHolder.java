@@ -39,7 +39,7 @@ public final class I18nHolder implements I18nObject {
     String after = null;
     I18nObject afterI18n = null;
 
-    public static I18nHolder of(final I18nObject[] i18ns) {
+    public static I18nHolder of(final I18nObject... i18ns) {
         return new I18nHolder(i18ns);
     }
 
@@ -249,16 +249,30 @@ public final class I18nHolder implements I18nObject {
      */
     @Override
     public String build(final I18nUtils i18nUtils, final String locale, final boolean defaultLocale) {
-        return (this.first != null ? this.first : (this.firstI18n != null ? this.firstI18n.build(i18nUtils, locale, defaultLocale) : ""))
+        return (this.first != null
+                ? this.first
+                : (this.firstI18n != null ? this.firstI18n.build(i18nUtils, locale, defaultLocale) : ""))
                 + ArrayUtils.join(
-                (this.concat != null ? this.concat : (this.concatI18n != null ? this.concatI18n.build(i18nUtils, locale, defaultLocale) : "")),
+                (this.concat != null
+                        ? this.concat
+                        : (this.concatI18n != null ? this.concatI18n.build(i18nUtils, locale, defaultLocale) : "")),
                 Arrays
                         .stream(this.i18ns)
                         .map(i18n ->
-                                (this.before != null ? this.before : (this.beforeI18n != null ? this.beforeI18n.build(i18nUtils, locale, defaultLocale) : "")) +
+                                (this.before != null
+                                        ? this.before
+                                        : (this.beforeI18n != null
+                                                ? this.beforeI18n.build(i18nUtils, locale, defaultLocale)
+                                                : "")) +
                                         i18n.build(i18nUtils, locale, defaultLocale)
-                                        + (this.after != null ? this.after : (this.afterI18n != null ? this.afterI18n.build(i18nUtils, locale, defaultLocale) : "")))
+                                        + (this.after != null
+                                        ? this.after
+                                        : (this.afterI18n != null
+                                                ? this.afterI18n.build(i18nUtils, locale, defaultLocale)
+                                                : "")))
                         .toArray(String[]::new))
-                + (this.last != null ? this.last : (this.lastI18n != null ? this.lastI18n.build(i18nUtils, locale, defaultLocale) : ""));
+                + (this.last != null
+                ? this.last
+                : (this.lastI18n != null ? this.lastI18n.build(i18nUtils, locale, defaultLocale) : ""));
     }
 }
