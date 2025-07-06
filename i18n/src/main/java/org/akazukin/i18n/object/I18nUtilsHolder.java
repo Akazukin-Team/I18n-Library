@@ -1,7 +1,8 @@
-package org.akazukin.i18n;
+package org.akazukin.i18n.object;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.akazukin.i18n.manager.I18nManager;
 import org.akazukin.util.interfaces.Reloadable;
 import org.jetbrains.annotations.Nullable;
 
@@ -10,21 +11,21 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
- * A holder class for managing a collection of {@link I18nUtils} instances.
+ * A holder class for managing a collection of {@link I18nManager} instances.
  * Provides methods to retrieve internationalized text based on the provided {@link I18nObject} and locale.
  * Implements the {@link Reloadable} interface to support reloading functionality.
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class I18nUtilsHolder implements Reloadable {
-    List<I18nUtils> i18nUtils = new CopyOnWriteArrayList<>();
+    List<I18nManager> i18nUtils = new CopyOnWriteArrayList<>();
 
-    public I18nUtilsHolder(final I18nUtils... i18nUtils) {
+    public I18nUtilsHolder(final I18nManager... i18nUtils) {
         this.i18nUtils.addAll(Arrays.asList(i18nUtils));
     }
 
     /**
      * Retrieves a localized string for the specified {@link I18nObject}.
-     * The method iterates through the internal collection of {@link I18nUtils} instances to build the localized string.
+     * The method iterates through the internal collection of {@link I18nManager} instances to build the localized string.
      * If a result is found, it is immediately returned. If no matching result is found,
      * the method will return null.
      *
@@ -33,7 +34,7 @@ public class I18nUtilsHolder implements Reloadable {
      */
     @Nullable
     public String get(final I18nObject i18n) {
-        for (final I18nUtils i18nUtil : this.i18nUtils) {
+        for (final I18nManager i18nUtil : this.i18nUtils) {
             final String result = i18n.build(i18nUtil);
             if (result != null) {
                 return result;
@@ -45,7 +46,7 @@ public class I18nUtilsHolder implements Reloadable {
 
     /**
      * Retrieves a localized string for the specified locale and {@link I18nObject}.
-     * The method iterates through the internal collection of {@link I18nUtils} instances to build the localized string.
+     * The method iterates through the internal collection of {@link I18nManager} instances to build the localized string.
      * If a matching localized string is not found,
      * it attempts to retrieve the string using the default locale.
      *
@@ -60,7 +61,7 @@ public class I18nUtilsHolder implements Reloadable {
 
     /**
      * Retrieves a localized string for the specified locale and {@link I18nObject}.
-     * The method iterates through the internal collection of {@link I18nUtils} instances to build the localized string.
+     * The method iterates through the internal collection of {@link I18nManager} instances to build the localized string.
      * If a matching localized string is not found and the `defaultLocale` flag is true,
      * it attempts to retrieve the string using the default locale.
      *
@@ -71,7 +72,7 @@ public class I18nUtilsHolder implements Reloadable {
      */
     @Nullable
     public String get(final String locale, final I18nObject i18n, final boolean defaultLocale) {
-        for (final I18nUtils i18nUtil : this.i18nUtils) {
+        for (final I18nManager i18nUtil : this.i18nUtils) {
             final String result = i18n.build(i18nUtil, locale);
             if (result != null) {
                 return result;
@@ -79,7 +80,7 @@ public class I18nUtilsHolder implements Reloadable {
         }
 
         if (defaultLocale) {
-            for (final I18nUtils i18nUtil : this.i18nUtils) {
+            for (final I18nManager i18nUtil : this.i18nUtils) {
                 if (locale.equalsIgnoreCase(i18nUtil.getDefaultLocale())) {
                     continue;
                 }
@@ -95,13 +96,13 @@ public class I18nUtilsHolder implements Reloadable {
     }
 
     /**
-     * Reloads all {@link I18nUtils} instances contained within this holder.
-     * This method iterates over the collection of {@link I18nUtils} objects
+     * Reloads all {@link I18nManager} instances contained within this holder.
+     * This method iterates over the collection of {@link I18nManager} objects
      * and invokes their respective {@code reload} methods to refresh any
      * internal state or cached data related to internationalization.
      */
     @Override
     public void reload() {
-        this.i18nUtils.forEach(I18nUtils::reload);
+        this.i18nUtils.forEach(I18nManager::reload);
     }
 }

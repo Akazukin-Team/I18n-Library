@@ -1,10 +1,11 @@
-package org.akazukin.i18n;
+package org.akazukin.i18n.object;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import org.akazukin.i18n.manager.I18nManager;
 
 /**
  * Represents an internationalization (i18n) resource that encapsulates a message identifier and
@@ -35,13 +36,13 @@ public final class I18n implements I18nObject {
      * Builds the localized string representation of this internationalization (i18n) object
      * using the specified utilities and locale information.
      *
-     * @param i18nUtils     the utility to fetch localized messages
+     * @param i18NManager   the utility to fetch localized messages
      * @param locale        the locale identifier specifying the target language and region
      * @param defaultLocale a flag indicating whether to use a default fallback locale
      * @return the localized message string for this i18n object
      */
     @Override
-    public String build(final I18nUtils i18nUtils, final String locale, final boolean defaultLocale) {
-        return i18nUtils.get(locale, defaultLocale, this);
+    public String build(final I18nManager i18NManager, final String locale, final boolean defaultLocale) {
+        return i18NManager.get(locale, defaultLocale, this);
     }
 }
