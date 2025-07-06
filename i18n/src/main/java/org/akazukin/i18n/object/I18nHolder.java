@@ -1,9 +1,10 @@
-package org.akazukin.i18n;
+package org.akazukin.i18n.object;
 
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
+import org.akazukin.i18n.manager.I18nManager;
 import org.akazukin.util.utils.ArrayUtils;
 
 import java.util.Arrays;
@@ -21,7 +22,7 @@ import java.util.Arrays;
  * concatenating the elements in the desired sequence with any optional prefixes, suffixes, or
  * connectors specified within the instance.
  * <p>
- * This class relies on {@link I18nUtils} for formatting or localizing during the build process.
+ * This class relies on {@link I18nManager} for formatting or localizing during the build process.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode
@@ -54,7 +55,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param first the plain text to set as the first element in the sequence
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setFirst(final String first) {
         this.first = first;
@@ -73,7 +74,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param first the {@code I18nObject} to set as the first element in the sequence
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setFirst(final I18nObject first) {
         this.first = null;
@@ -91,7 +92,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param last the plain text to set as the last element in the sequence
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setLast(final String last) {
         this.last = last;
@@ -110,7 +111,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param last the {@code I18nObject} to set as the last element in the sequence
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setLast(final I18nObject last) {
         this.last = null;
@@ -130,7 +131,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param concat the plain text to set as the connector element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setConcat(final String concat) {
         this.concat = concat;
@@ -150,7 +151,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param concat the {@code I18nObject} to set as the connector element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
 
     public I18nHolder setConcat(final I18nObject concat) {
@@ -171,7 +172,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param after the plain text to set as the suffix for each managed element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setAfter(final String after) {
         this.after = after;
@@ -191,7 +192,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param after the {@code I18nObject} to set as the suffix for each managed element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setAfter(final I18nObject after) {
         this.after = null;
@@ -211,7 +212,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param before the plain text to set as the prefix for each managed element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setBefore(final String before) {
         this.before = before;
@@ -231,7 +232,7 @@ public final class I18nHolder implements I18nObject {
      *
      * @param before the {@code I18nObject} to set as the prefix for each managed element
      * @return the current {@code I18nHolder} instance for method chaining
-     * @see #build(I18nUtils, String, boolean)
+     * @see #build(I18nManager, String, boolean)
      */
     public I18nHolder setBefore(final I18nObject before) {
         this.before = null;
@@ -242,37 +243,37 @@ public final class I18nHolder implements I18nObject {
     /**
      * Builds a localized string by combining the different parts of this object based on the specified locale and other settings.
      *
-     * @param i18nUtils     an instance of {@code I18nUtils} used for localization utilities
+     * @param i18NManager   an instance of {@code I18nUtils} used for localization utilities
      * @param locale        a {@code String} specifying the desired locale for generating the localized string
      * @param defaultLocale a {@code boolean} indicating whether to use the default locale if no localization is found
      * @return a {@code String} representation of the localized object based on the specified parameters
      */
     @Override
-    public String build(final I18nUtils i18nUtils, final String locale, final boolean defaultLocale) {
+    public String build(final I18nManager i18NManager, final String locale, final boolean defaultLocale) {
         return (this.first != null
                 ? this.first
-                : (this.firstI18n != null ? this.firstI18n.build(i18nUtils, locale, defaultLocale) : ""))
+                : (this.firstI18n != null ? this.firstI18n.build(i18NManager, locale, defaultLocale) : ""))
                 + ArrayUtils.join(
                 (this.concat != null
                         ? this.concat
-                        : (this.concatI18n != null ? this.concatI18n.build(i18nUtils, locale, defaultLocale) : "")),
+                        : (this.concatI18n != null ? this.concatI18n.build(i18NManager, locale, defaultLocale) : "")),
                 Arrays
                         .stream(this.i18ns)
                         .map(i18n ->
                                 (this.before != null
                                         ? this.before
                                         : (this.beforeI18n != null
-                                                ? this.beforeI18n.build(i18nUtils, locale, defaultLocale)
+                                                ? this.beforeI18n.build(i18NManager, locale, defaultLocale)
                                                 : "")) +
-                                        i18n.build(i18nUtils, locale, defaultLocale)
+                                        i18n.build(i18NManager, locale, defaultLocale)
                                         + (this.after != null
                                         ? this.after
                                         : (this.afterI18n != null
-                                                ? this.afterI18n.build(i18nUtils, locale, defaultLocale)
+                                                ? this.afterI18n.build(i18NManager, locale, defaultLocale)
                                                 : "")))
                         .toArray(String[]::new))
                 + (this.last != null
                 ? this.last
-                : (this.lastI18n != null ? this.lastI18n.build(i18nUtils, locale, defaultLocale) : ""));
+                : (this.lastI18n != null ? this.lastI18n.build(i18NManager, locale, defaultLocale) : ""));
     }
 }

@@ -1,10 +1,12 @@
-package org.akazukin.i18n;
+package org.akazukin.i18n.manager;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.akazukin.i18n.object.I18n;
+import org.akazukin.i18n.object.I18nObject;
 import org.akazukin.util.interfaces.Reloadable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +44,7 @@ import java.util.regex.Pattern;
 @Slf4j
 @Getter
 @Setter
-public class I18nUtils implements Reloadable {
+public class I18nManager implements Reloadable {
     private static final Pattern REGEX_I18N = Pattern.compile("<\\$([a-zA-Z0-9.]+)>");
 
     @NotNull
@@ -61,7 +63,7 @@ public class I18nUtils implements Reloadable {
     @NotNull
     String[] locales;
 
-    public I18nUtils(@NotNull final ClassLoader classLoader, @NotNull final String domain, @NotNull final String appId, final @NotNull File dataFolder, @NotNull final String defaultLocale, @NotNull final String... locales) {
+    public I18nManager(@NotNull final ClassLoader classLoader, @NotNull final String domain, @NotNull final String appId, final @NotNull File dataFolder, @NotNull final String defaultLocale, @NotNull final String... locales) {
         this.classLoader = classLoader;
         this.domain = domain;
         this.appId = appId;
@@ -215,7 +217,7 @@ public class I18nUtils implements Reloadable {
         i18n = i18n.replace("\\n", "\n");
 
         Matcher m;
-        while ((m = I18nUtils.REGEX_I18N.matcher(i18n)).find()) {
+        while ((m = I18nManager.REGEX_I18N.matcher(i18n)).find()) {
             i18n = m.replaceFirst(String.valueOf(this.getInternal(locale, m.group(1))));
         }
 
