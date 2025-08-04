@@ -15,6 +15,7 @@ import java.util.regex.Matcher;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class I18nFormatter implements II18nFormatter {
+    @Getter
     final IEntryManager entryMgr;
     @Setter
     @Getter
