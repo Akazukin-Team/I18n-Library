@@ -8,14 +8,14 @@ import org.jetbrains.annotations.Nullable;
 
 
 /**
- * Represents an internationalization (i18n) object 
+ * Represents an internationalization (i18n) object
  * that provides the core contract for building localized string resources.
  * This interface serves as the foundation for all i18n
  * components in the library, enabling flexible and consistent handling of multilingual content.
  * <p>
  * The interface provides both nullable and non-null variants of build methods, allowing consumers
  * to choose the appropriate level of error handling based on their requirements. All methods
- * support locale fallback mechanisms to ensure graceful degradation 
+ * support locale fallback mechanisms to ensure graceful degradation
  * when specific locales are unavailable.
  */
 public interface I18nObject {

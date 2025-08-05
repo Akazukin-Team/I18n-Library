@@ -15,9 +15,9 @@ import java.util.Arrays;
 
 /**
  * A holder class that implements {@link I18nObject} and is designed to manage and compose multiple
- * {@code I18nObject} instances, allowing for flexible customization and assembly of internationalized text.
+ * {@link I18nObject} instances, allowing for flexible customization and assembly of internationalized text.
  * <p>
- * Instances of this class provide methods to set additional text or {@code I18nObject}
+ * Instances of this class provide methods to set additional text or {@link I18nObject}
  * elements before, after, or between the managed {@link I18nObject} instances. It enables
  * the creation of complex, localized messages by combining multiple pieces of text and
  * {@link I18nObject}s.
@@ -52,13 +52,13 @@ public final class I18nHolder implements I18nObject {
      * Sets the first element in the sequence to the specified plain text.
      * <p>
      * This method allows you to prepend a custom plain text at the beginning of the sequence managed by this holder.
-     * If this method is used, any previously set {@code I18nObject} for the first element will be cleared.
+     * If this method is used, any previously set {@link I18nObject} for the first element will be cleared.
      * During the {@code build} process, this text will be directly added at the start of the final composed string
      * without further localization.
      * </p>
      *
      * @param first the plain text to set as the first element in the sequence
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setFirst(final String first) {
         this.first = first;
@@ -67,16 +67,16 @@ public final class I18nHolder implements I18nObject {
     }
 
     /**
-     * Sets the first element in the sequence to the specified {@code I18nObject}.
+     * Sets the first element in the sequence to the specified {@link I18nObject}.
      * <p>
-     * This method allows you to prepend a custom {@code I18nObject} element at the beginning of the sequence managed by this holder.
+     * This method allows you to prepend a custom {@link I18nObject} element at the beginning of the sequence managed by this holder.
      * If this method is used, any previously set plain text for the first element will be cleared.
      * During the {@code build} process, the value of this element will be localized using the provided locale settings
      * and added at the start of the final composed string.
      * </p>
      *
-     * @param first the {@code I18nObject} to set as the first element in the sequence
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @param first the {@link I18nObject} to set as the first element in the sequence
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setFirst(final I18nObject first) {
         this.first = null;
@@ -88,12 +88,12 @@ public final class I18nHolder implements I18nObject {
      * Sets the last element in the sequence to the specified plain text.
      * <p>
      * This method allows you to append a custom plain text as the last element in the sequence managed by this holder.
-     * If this method is used, any previously set {@code I18nObject} for the last element will be cleared.
+     * If this method is used, any previously set {@link I18nObject} for the last element will be cleared.
      * During the {@code build} process, this text will be directly added at the end of the final composed string without further localization.
      * </p>
      *
      * @param last the plain text to set as the last element in the sequence
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setLast(final String last) {
         this.last = last;
@@ -102,16 +102,16 @@ public final class I18nHolder implements I18nObject {
     }
 
     /**
-     * Sets the last element in the sequence to the specified {@code I18nObject}.
+     * Sets the last element in the sequence to the specified {@link I18nObject}.
      * <p>
-     * This method allows you to append a custom {@code I18nObject} element at the end of the sequence managed by this holder.
+     * This method allows you to append a custom {@link I18nObject} element at the end of the sequence managed by this holder.
      * If this method is used, any previously set plain text for the last element will be cleared.
      * During the {@code build} process, the value of this element will be localized using the provided locale settings
      * and added at the end of the final composed string.
      * </p>
      *
-     * @param last the {@code I18nObject} to set as the last element in the sequence
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @param last the {@link I18nObject} to set as the last element in the sequence
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setLast(final I18nObject last) {
         this.last = null;
@@ -123,14 +123,14 @@ public final class I18nHolder implements I18nObject {
      * Sets the connector element to the specified plain text.
      * <p>
      * This method allows you to specify a custom plain text to act as a connector between
-     * the elements managed by this holder. If this method is used, any previously set {@code I18nObject} for the connector
+     * the elements managed by this holder. If this method is used, any previously set {@link I18nObject} for the connector
      * will be cleared.
      * During the {@code build} process, this text will be directly added as the connector between consecutive elements
      * without further localization.
      * </p>
      *
      * @param concat the plain text to set as the connector element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setConcat(final String concat) {
         this.concat = concat;
@@ -139,17 +139,17 @@ public final class I18nHolder implements I18nObject {
     }
 
     /**
-     * Sets the connector element to the specified {@code I18nObject}.
+     * Sets the connector element to the specified {@link I18nObject}.
      * <p>
-     * This method allows you to specify a custom {@code I18nObject} to act as a connector between
+     * This method allows you to specify a custom {@link I18nObject} to act as a connector between
      * the elements managed by this holder. If this method is used, any previously set plain text for the connector
      * will be cleared.
      * During the {@code build} process, the value of this connector will be localized and inserted
      * between consecutive elements in the sequence.
      * </p>
      *
-     * @param concat the {@code I18nObject} to set as the connector element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @param concat the {@link I18nObject} to set as the connector element
+     * @return the current {@link I18nHolder} instance for method chaining
      */
 
     public I18nHolder setConcat(final I18nObject concat) {
@@ -162,14 +162,14 @@ public final class I18nHolder implements I18nObject {
      * Sets a suffix element to the specified plain text, to be added after each managed element.
      * <p>
      * This method allows you to specify a custom plain text that will act as a suffix
-     * for every managed element. If this method is used, any previously set {@code I18nObject} for the suffix
+     * for every managed element. If this method is used, any previously set {@link I18nObject} for the suffix
      * will be cleared.
      * During the {@code build} process, this text will be directly added as a suffix
      * for each element in the sequence without further localization.
      * </p>
      *
      * @param after the plain text to set as the suffix for each managed element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setAfter(final String after) {
         this.after = after;
@@ -178,17 +178,17 @@ public final class I18nHolder implements I18nObject {
     }
 
     /**
-     * Sets a suffix element to the specified {@code I18nObject}, to be added after each managed element.
+     * Sets a suffix element to the specified {@link I18nObject}, to be added after each managed element.
      * <p>
-     * This method allows you to specify a custom {@code I18nObject} that will act as a suffix
+     * This method allows you to specify a custom {@link I18nObject} that will act as a suffix
      * for every managed element. If this method is used, any previously set plain text for the suffix
      * will be cleared.
      * During the {@code build} process, the value of this suffix will be localized and added
      * after each element in the sequence.
      * </p>
      *
-     * @param after the {@code I18nObject} to set as the suffix for each managed element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @param after the {@link I18nObject} to set as the suffix for each managed element
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setAfter(final I18nObject after) {
         this.after = null;
@@ -200,14 +200,14 @@ public final class I18nHolder implements I18nObject {
      * Sets a prefix element to the specified plain text, to be added before each managed element.
      * <p>
      * This method allows you to specify a custom plain text that will act as a prefix
-     * for every managed element. If this method is used, any previously set {@code I18nObject} for the prefix
+     * for every managed element. If this method is used, any previously set {@link I18nObject} for the prefix
      * will be cleared.
      * During the {@code build} process, this text will be directly added as a prefix
      * for each element in the sequence without further localization.
      * </p>
      *
      * @param before the plain text to set as the prefix for each managed element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setBefore(final String before) {
         this.before = before;
@@ -216,17 +216,17 @@ public final class I18nHolder implements I18nObject {
     }
 
     /**
-     * Sets a prefix element to the specified {@code I18nObject}, to be added before each managed element.
+     * Sets a prefix element to the specified {@link I18nObject}, to be added before each managed element.
      * <p>
-     * This method allows you to specify a custom {@code I18nObject} that will act as a prefix
+     * This method allows you to specify a custom {@link I18nObject} that will act as a prefix
      * for every managed element. If this method is used, any previously set plain text for the prefix
      * will be cleared.
      * During the {@code build} process, the value of this prefix will be localized and added
      * before each element in the sequence.
      * </p>
      *
-     * @param before the {@code I18nObject} to set as the prefix for each managed element
-     * @return the current {@code I18nHolder} instance for method chaining
+     * @param before the {@link I18nObject} to set as the prefix for each managed element
+     * @return the current {@link I18nHolder} instance for method chaining
      */
     public I18nHolder setBefore(final I18nObject before) {
         this.before = null;

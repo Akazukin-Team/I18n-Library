@@ -24,7 +24,7 @@ public class IllegalI18nKeyException extends IllegalStateException {
      * Constructs a new IllegalI18nKeyException with the specified language and key.
      *
      * @param lang the language context where the invalid key was encountered
-     * @param key the invalid key that caused this exception
+     * @param key  the invalid key that caused this exception
      * @throws NullPointerException if lang or key is null
      */
     public IllegalI18nKeyException(@NonNull final I18nLang lang, @NonNull final String key) {

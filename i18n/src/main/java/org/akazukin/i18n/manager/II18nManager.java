@@ -5,7 +5,7 @@ package org.akazukin.i18n.manager;
  * This interface provides access to the core components of the i18n system,
  * including entry management and message formatting functionality.
  * <p>
- * The {@code II18nManager} serves as the main entry point for all i18n operations,
+ * The {@link II18nManager} serves as the main entry point for all i18n operations,
  * coordinating between the entry manager that handles locale data storage and retrieval,
  * and the formatter that processes localized messages with dynamic content.
  */

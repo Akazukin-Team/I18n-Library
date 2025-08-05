@@ -3,10 +3,8 @@ package org.akazukin.i18n.object;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.akazukin.i18n.exception.I18nLocaleNotFoundException;
-import org.akazukin.i18n.manager.I18nManager;
 import org.akazukin.i18n.manager.II18nFormatter;
 import org.akazukin.i18n.manager.data.I18nLang;
-import org.akazukin.util.interfaces.Reloadable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
