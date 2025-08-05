@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.akazukin.i18n.config.I18nManagerConfig;
+import org.akazukin.i18n.config.II18nManagerConfig;
 import org.akazukin.i18n.utils.I18nValidatorUtils;
 import org.akazukin.util.interfaces.Reloadable;
 
@@ -35,20 +35,20 @@ public class I18nManager implements II18nManager {
     final IEntryManager entryMgr;
     final II18nFormatter formatter;
 
-    private I18nManager(final I18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
+    private I18nManager(final II18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
         this.entryMgr = entryMgr;
         this.entryMgr.load(config.getLangs());
         this.formatter = formatter;
         this.formatter.setFallbackLang(config.getFallbackLang());
     }
 
-    public static II18nManager create(final I18nManagerConfig config) {
+    public static II18nManager create(final II18nManagerConfig config) {
         final IEntryManager entryMgr = new EntryManager(config);
         final II18nFormatter formatter = new I18nFormatter(entryMgr);
         return create(config, entryMgr, formatter);
     }
 
-    public static II18nManager create(final I18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
+    public static II18nManager create(final II18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
         return new I18nManager(config, entryMgr, formatter);
     }
 }
