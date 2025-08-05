@@ -9,6 +9,7 @@ import org.akazukin.i18n.manager.I18nManager;
 import org.akazukin.i18n.manager.II18nFormatter;
 import org.akazukin.i18n.manager.data.I18nLang;
 import org.akazukin.util.utils.ArrayUtils;
+import org.akazukin.util.utils.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -44,7 +45,14 @@ public final class I18nHolder implements I18nObject {
     String after;
     I18nObject afterI18n;
 
-    public static I18nHolder of(final I18nObject... i18ns) {
+    /**
+     * Creates a new instance of {@link  I18nHolder} with the specified {@link I18nObject} elements.
+     *
+     * @param i18ns one or more {@link I18nObject} instances to be managed by the {@link I18nHolder}.
+     *              Must not be null.
+     * @return a new {@link I18nHolder} containing the provided {@link I18nObject} elements.
+     */
+    public static I18nHolder of(@NotNull final I18nObject... i18ns) {
         return new I18nHolder(i18ns);
     }
 
@@ -244,37 +252,51 @@ public final class I18nHolder implements I18nObject {
      * and the last element in the configured sequence.
      * If none of the locales can provide a result, {@code null} is returned.
      *
-     * @param formatter the formatter to use for building the localized string
-     * @param locales   the array of locales to attempt, in order of preference
+     * @param formatter the formatter to use for building the localized string.
+     *                  Must not be {@code null}.
+     * @param locales   the array of locales to attempt, in order of preference.
+     *                  Must not be {@code null}.
      * @return the localized string for the first available locale, or {@code null} if none can be resolved
      */
     @Override
-    public String build(final II18nFormatter formatter, final I18nLang[] locales) {
-        return (this.first != null
+    public String build(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) {
+        final String first = this.first != null
                 ? this.first
-                : (this.firstI18n != null ? this.firstI18n.build(formatter, locales) : ""))
+                : (this.firstI18n != null
+                        ? StringUtils.toStringOrEmpty(this.firstI18n.build(formatter, locales))
+                        : "");
+        final String concat = this.concat != null
+                ? this.concat
+                : (this.concatI18n != null
+                        ? StringUtils.toStringOrEmpty(this.concatI18n.build(formatter, locales))
+                        : "");
+        final String before = this.before != null
+                ? this.before
+                : (this.beforeI18n != null
+                        ? StringUtils.toStringOrEmpty(this.beforeI18n.build(formatter, locales))
+                        : "");
+        final String after = this.after != null
+                ? this.after
+                : (this.afterI18n != null
+                        ? StringUtils.toStringOrEmpty(this.afterI18n.build(formatter, locales))
+                        : "");
+        final String last = this.last != null
+                ? this.last
+                : (this.lastI18n != null
+                        ? StringUtils.toStringOrEmpty(this.lastI18n.build(formatter, locales))
+                        : "");
+
+        return first
                 + ArrayUtils.join(
-                (this.concat != null
-                        ? this.concat
-                        : (this.concatI18n != null ? this.concatI18n.build(formatter, locales) : "")),
+                concat,
                 Arrays
                         .stream(this.i18ns)
                         .map(i18n ->
-                                (this.before != null
-                                        ? this.before
-                                        : (this.beforeI18n != null
-                                                ? this.beforeI18n.build(formatter, locales)
-                                                : "")) +
-                                        i18n.build(formatter, locales)
-                                        + (this.after != null
-                                        ? this.after
-                                        : (this.afterI18n != null
-                                                ? this.afterI18n.build(formatter, locales)
-                                                : "")))
+                                before
+                                        + StringUtils.toStringOrEmpty(i18n.build(formatter, locales))
+                                        + after)
                         .toArray(String[]::new))
-                + (this.last != null
-                ? this.last
-                : (this.lastI18n != null ? this.lastI18n.build(formatter, locales) : ""));
+                + last;
     }
 
     /**
@@ -287,37 +309,51 @@ public final class I18nHolder implements I18nObject {
      * and the last element in the configured sequence.
      * Guarantees a non-null result or throws an exception.
      *
-     * @param formatter the formatter to use for building the localized string
-     * @param locales   the array of locales to attempt, in order of preference
+     * @param formatter the formatter to use for building the localized string.
+     *                  Must not be {@code null}.
+     * @param locales   the array of locales to attempt, in order of preference.
+     *                  Must not be {@code null}.
      * @return the localized string for the first available locale. Must not be {@code null}.
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for any locale
      */
     @Override
-    public @NotNull String buildRequired(final II18nFormatter formatter, final I18nLang[] locales) throws I18nLocaleNotFoundException {
-        return (this.first != null
+    public @NotNull String buildRequired(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) throws I18nLocaleNotFoundException {
+        final String first = this.first != null
                 ? this.first
-                : (this.firstI18n != null ? this.firstI18n.buildRequired(formatter, locales) : ""))
+                : (this.firstI18n != null
+                        ? StringUtils.toStringOrEmpty(this.firstI18n.buildRequired(formatter, locales))
+                        : "");
+        final String concat = this.concat != null
+                ? this.concat
+                : (this.concatI18n != null
+                        ? StringUtils.toStringOrEmpty(this.concatI18n.buildRequired(formatter, locales))
+                        : "");
+        final String before = this.before != null
+                ? this.before
+                : (this.beforeI18n != null
+                        ? StringUtils.toStringOrEmpty(this.beforeI18n.buildRequired(formatter, locales))
+                        : "");
+        final String after = this.after != null
+                ? this.after
+                : (this.afterI18n != null
+                        ? StringUtils.toStringOrEmpty(this.afterI18n.buildRequired(formatter, locales))
+                        : "");
+        final String last = this.last != null
+                ? this.last
+                : (this.lastI18n != null
+                        ? StringUtils.toStringOrEmpty(this.lastI18n.buildRequired(formatter, locales))
+                        : "");
+
+        return first
                 + ArrayUtils.join(
-                (this.concat != null
-                        ? this.concat
-                        : (this.concatI18n != null ? this.concatI18n.buildRequired(formatter, locales) : "")),
+                concat,
                 Arrays
                         .stream(this.i18ns)
                         .map(i18n ->
-                                (this.before != null
-                                        ? this.before
-                                        : (this.beforeI18n != null
-                                                ? this.beforeI18n.buildRequired(formatter, locales)
-                                                : "")) +
-                                        i18n.buildRequired(formatter, locales)
-                                        + (this.after != null
-                                        ? this.after
-                                        : (this.afterI18n != null
-                                                ? this.afterI18n.buildRequired(formatter, locales)
-                                                : "")))
+                                before
+                                        + StringUtils.toStringOrEmpty(i18n.buildRequired(formatter, locales))
+                                        + after)
                         .toArray(String[]::new))
-                + (this.last != null
-                ? this.last
-                : (this.lastI18n != null ? this.lastI18n.buildRequired(formatter, locales) : ""));
+                + last;
     }
 }

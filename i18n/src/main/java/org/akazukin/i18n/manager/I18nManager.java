@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.akazukin.i18n.config.II18nManagerConfig;
 import org.akazukin.i18n.utils.I18nValidatorUtils;
 import org.akazukin.util.interfaces.Reloadable;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.regex.Pattern;
 
@@ -28,27 +29,49 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 @Getter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class I18nManager implements II18nManager {
     public static final Pattern REGEX_I18N = Pattern.compile("<\\$(" + I18nValidatorUtils.ID_REGEX + ")>");
 
-    final IEntryManager entryMgr;
-    final II18nFormatter formatter;
+    IEntryManager entryMgr;
+    II18nFormatter formatter;
 
-    private I18nManager(final II18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
+    private I18nManager(@NotNull final II18nManagerConfig config,
+                        @NotNull final IEntryManager entryMgr, @NotNull final II18nFormatter formatter) {
         this.entryMgr = entryMgr;
         this.entryMgr.load(config.getLangs());
         this.formatter = formatter;
         this.formatter.setFallbackLang(config.getFallbackLang());
     }
 
-    public static II18nManager create(final II18nManagerConfig config) {
+    /**
+     * Creates a new {@link II18nManager} instance using the specified configuration.
+     * This method initializes the necessary parts for managing and formatting
+     * internationalized entries, such as the entry manager and formatter.
+     *
+     * @param config the configuration for the i18n manager.
+     *               Must not be {@code null}.
+     * @return a new {@link II18nManager} instance configured using the provided parameters.
+     */
+    public static II18nManager create(@NotNull final II18nManagerConfig config) {
         final IEntryManager entryMgr = new EntryManager(config);
         final II18nFormatter formatter = new I18nFormatter(entryMgr);
         return create(config, entryMgr, formatter);
     }
 
-    public static II18nManager create(final II18nManagerConfig config, final IEntryManager entryMgr, final II18nFormatter formatter) {
+    /**
+     * Creates a new {@link II18nManager} instance using the specified configuration and components.
+     *
+     * @param config    the configuration for the i18n manager.
+     *                  Must not be {@code null}.
+     * @param entryMgr  the entry manager responsible for managing internationalization entries.
+     *                  Must not be {@code null}.
+     * @param formatter the formatter used to process and format localized messages.
+     *                  Must not be {@code null}.
+     * @return a new {@link II18nManager} instance initialized with the given parameters.
+     */
+    public static II18nManager create(@NotNull final II18nManagerConfig config,
+                                      @NotNull final IEntryManager entryMgr, @NotNull final II18nFormatter formatter) {
         return new I18nManager(config, entryMgr, formatter);
     }
 }
