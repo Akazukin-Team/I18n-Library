@@ -39,32 +39,26 @@ public final class I18nEntry {
     Map<String, String> entries = new HashMap<>();
 
     @Nullable
-    public String getEntry(final String id) {
-        synchronized (this) {
-            if (this.entries == null) {
-                return null;
-            }
-            return this.entries.get(id);
+    public synchronized String getEntry(final String id) {
+        if (this.entries == null) {
+            return null;
         }
+        return this.entries.get(id);
     }
 
-    public boolean hasEntryId(final String id) {
-        synchronized (this) {
-            if (this.entries == null) {
-                return false;
-            }
-            return this.entries.containsKey(id);
+    public synchronized boolean hasEntryId(final String id) {
+        if (this.entries == null) {
+            return false;
         }
+        return this.entries.containsKey(id);
     }
 
     @NotNull
-    public String[] getEntryIds() {
-        synchronized (this) {
-            if (this.entries == null) {
-                return Constants.EMPTY_STR_ARR;
-            }
-            return this.entries.keySet().toArray(Constants.EMPTY_STR_ARR);
+    public synchronized String[] getEntryIds() {
+        if (this.entries == null) {
+            return Constants.EMPTY_STR_ARR;
         }
+        return this.entries.keySet().toArray(Constants.EMPTY_STR_ARR);
     }
 
     @Override
