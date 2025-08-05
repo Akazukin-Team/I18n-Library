@@ -25,7 +25,7 @@ public class I18nLocaleNotFoundException extends IllegalStateException {
      * Constructs a new I18nLocaleNotFoundException with the specified languages and key.
      *
      * @param langs the array of languages where the key was not found
-     * @param key the key that was not found in the specified languages
+     * @param key   the key that was not found in the specified languages
      * @throws NullPointerException if langs or key is null
      */
     public I18nLocaleNotFoundException(@NonNull final I18nLang[] langs, @NonNull final String key) {
@@ -39,7 +39,7 @@ public class I18nLocaleNotFoundException extends IllegalStateException {
      * Constructs a new I18nLocaleNotFoundException with the specified languages and i18n object.
      *
      * @param langs the array of languages where the i18n object was not found
-     * @param i18n the i18n object that was not found in the specified languages
+     * @param i18n  the i18n object that was not found in the specified languages
      * @throws NullPointerException if langs or i18n is null
      */
     public I18nLocaleNotFoundException(@NonNull final I18nLang[] langs, @NonNull final I18nObject i18n) {

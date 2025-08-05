@@ -4,6 +4,11 @@ import org.akazukin.i18n.manager.data.I18nLang;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * An interface for formatting and retrieving internationalized messages (i18n).
+ * Provides mechanisms to look up and format messages based on language preferences.
+ * Includes support for fallback localization when a desired language is unavailable.
+ */
 public interface II18nFormatter {
     /**
      * Gets the fallback language used when a translation is not found.
@@ -30,9 +35,9 @@ public interface II18nFormatter {
      * in the provided languages and formats it with the specified arguments.
      * If no translation is found, returns null instead of throwing an exception.
      *
-     * @param id the message identifier to look up
+     * @param id    the message identifier to look up
      * @param langs array of preferred languages in order of preference
-     * @param args optional arguments for message formatting
+     * @param args  optional arguments for message formatting
      * @return the formatted message, or null if the message ID is not found
      */
     @Nullable
@@ -44,9 +49,9 @@ public interface II18nFormatter {
      * in the provided languages and formats it with the specified arguments.
      * Unlike formatMessage, this method throws an exception if the message ID is not found.
      *
-     * @param id the message identifier to look up
+     * @param id    the message identifier to look up
      * @param langs array of preferred languages in order of preference
-     * @param args optional arguments for message formatting
+     * @param args  optional arguments for message formatting
      * @return the formatted message (never null)
      * @throws RuntimeException if the message ID is not found
      */
