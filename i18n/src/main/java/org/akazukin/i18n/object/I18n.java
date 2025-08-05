@@ -61,12 +61,14 @@ public final class I18n implements I18nObject {
      * The message arguments are formatted according to the locale-specific formatting rules.
      * If none of the locales can provide a result, {@code null} is returned.
      *
-     * @param formatter the formatter to use for building the localized string
-     * @param locales   the array of locales to attempt, in order of preference
+     * @param formatter the formatter to use for building the localized string.
+     *                  Must not be {@code null}.
+     * @param locales   the array of locales to attempt, in order of preference.
+     *                  Must not be {@code null}.
      * @return the localized string for the first available locale, or {@code null} if none can be resolved
      */
     @Override
-    public String build(final II18nFormatter formatter, final I18nLang[] locales) {
+    public String build(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) {
         return formatter.formatMessage(this.id, locales, this.args);
     }
 
@@ -78,13 +80,15 @@ public final class I18n implements I18nObject {
      * The message arguments are formatted according to the locale-specific formatting rules.
      * Guarantees a non-null result or throws an exception.
      *
-     * @param formatter the formatter to use for building the localized string
-     * @param locales   the array of locales to attempt, in order of preference
+     * @param formatter the formatter to use for building the localized string.
+     *                  Must not be {@code null}.
+     * @param locales   the array of locales to attempt, in order of preference.
+     *                  Must not be {@code null}.
      * @return the localized string for the first available locale. Must not be {@code null}.
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for any locale
      */
     @Override
-    public @NotNull String buildRequired(final II18nFormatter formatter, final I18nLang[] locales) throws I18nLocaleNotFoundException {
+    public @NotNull String buildRequired(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) throws I18nLocaleNotFoundException {
         return formatter.formatMessageThrown(this.id, locales, this.args);
     }
 }
