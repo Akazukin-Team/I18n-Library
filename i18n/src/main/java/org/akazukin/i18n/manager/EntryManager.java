@@ -24,6 +24,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -78,8 +79,14 @@ public final class EntryManager implements IEntryManager {
                         e -> String.valueOf(e.getKey()),
                         e -> String.valueOf(e.getValue())));
 
-        if (!I18nValidatorUtils.isValidIds(newProps.keySet())) {
-            throw new IllegalI18nKeyException(lang, newProps.keySet().toArray(Constants.EMPTY_STR_ARR));
+        {
+            final Set<String> invalids = newProps.keySet()
+                    .stream()
+                    .filter(key -> !I18nValidatorUtils.isValidId(key))
+                    .collect(Collectors.toSet());
+            if (!invalids.isEmpty()) {
+                throw new IllegalI18nKeyException(lang, invalids.toArray(Constants.EMPTY_STR_ARR));
+            }
         }
 
         final I18nEntry entry = new I18nEntry(lang);
