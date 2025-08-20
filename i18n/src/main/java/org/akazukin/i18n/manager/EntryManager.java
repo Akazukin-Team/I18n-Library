@@ -11,6 +11,7 @@ import org.akazukin.i18n.manager.data.I18nEntry;
 import org.akazukin.i18n.manager.data.I18nLang;
 import org.akazukin.i18n.utils.I18nValidatorUtils;
 import org.akazukin.resource.exception.ResourceFetchException;
+import org.akazukin.resource.exception.ResourceNotFoundException;
 import org.akazukin.resource.identifier.IResourceIdentifier;
 import org.akazukin.resource.identifier.PathResourceIdentifier;
 import org.akazukin.resource.identifier.ResourceResourceIdentifier;
@@ -68,6 +69,8 @@ public final class EntryManager implements IEntryManager {
                 try (final InputStreamReader isr = new InputStreamReader(res.getInputStream(), StandardCharsets.UTF_8)) {
                     props.load(isr);
                 }
+            } catch (final ResourceNotFoundException e) {
+                log.warn("The localization resource is not found. | " + resId);
             } catch (final IOException | ResourceFetchException e) {
                 log.warn("Failed to load localization resource. | " + resId, e);
             }
