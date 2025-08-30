@@ -1,7 +1,7 @@
 [versions]
 #App deps
 akz-util = "4.0.0"
-akz-resLoader = "2.0.0"
+akz-resLoader = "3.0.0-SNAPSHOT"
 lombok = "1.18.38"
 slf4j = "2.1.0-alpha1"
 jetbrains-annotation = "26.0.2"
