@@ -8,12 +8,16 @@ plugins {
 testing {
     suites {
         unitTest(JvmTestSuite) {
+            useJUnitJupiter()
+
             dependencies {
                 implementation project()
             }
         }
 
         integrationTest(JvmTestSuite) {
+            useJUnitJupiter()
+
             dependencies {
                 implementation project()
             }
@@ -21,34 +25,22 @@ testing {
     }
 }
 
-tasks.withType(Test).configureEach {
-    workingDir = new File(projectDir, "run/test/${name}")
+tasks.named('test') {
+    enabled = false
+}
 
-    jvmArgs += ['-Xms256M', '-Xmx512M',
-                '-server',
-                '-XX:+UnlockExperimentalVMOptions', '-XX:+UnlockDiagnosticVMOptions',
-                '-XX:+UseParallelGC', '-XX:+DisableExplicitGC', '-XX:-UseGCOverheadLimit',
-                '-XX:+TieredCompilation', '-XX:CompileThreshold=500', '-XX:MaxInlineSize=64',
-                '-XX:+UseCompressedOops', '-XX:+UseStringDeduplication', '-XX:+OptimizeStringConcat',
-                '-XX:+AlwaysPreTouch',
-                '-XX:+CrashOnOutOfMemoryError', '-XX:+HeapDumpOnOutOfMemoryError',
-                '-Dsun.stdout.encoding=UTF-8', '-Dsun.stderr.encoding=UTF-8']
-    if (!javaVersion.isCompatibleWith(JavaVersion.VERSION_1_8)) {
-        jvmArgs += '-XX:+TieredCompilation'
+tasks.withType(Test).configureEach {
+    if (!it.enabled) {
+        return
     }
-    if (!javaVersion.isCompatibleWith(JavaVersion.VERSION_1_9)) {
-        jvmArgs += '-XX:+UseFastAccessorMethods'
-    }
-    if (!javaVersion.isCompatibleWith(JavaVersion.VERSION_13)) {
-        jvmArgs += '-XX:+AggressiveOpts'
+
+    it.workingDir = new File(projectDir, "run/test/${it.name}")
+    if (!it.workingDir.exists()) {
+        it.workingDir.mkdirs()
     }
 }
 
 tasks.named('check') {
     dependsOn(testing.suites.unitTest)
     dependsOn(testing.suites.integrationTest)
-}
-
-tasks.named('test') {
-    enabled = false
 }
