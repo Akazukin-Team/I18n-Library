@@ -9,9 +9,9 @@ import java.util.regex.Pattern;
 
 @UtilityClass
 public class I18nValidatorUtils {
-    private static final String KEY_REGEX = "[a-z0-9][a-zA-Z0-9]*";
-    public static final String ID_REGEX = KEY_REGEX + "(" + KEY_REGEX + ")*";
-    private static final Pattern ID_PATTERN = Pattern.compile(ID_REGEX);
+    private final String KEY_REGEX = "[a-z0-9][a-zA-Z0-9_-]*";
+    public final String ID_REGEX = KEY_REGEX + "(\\." + KEY_REGEX + ")*";
+    private final Pattern ID_PATTERN = Pattern.compile(ID_REGEX);
 
     public boolean isValid(final I18nEntry entry) {
         return entry.getEntries()
