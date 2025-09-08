@@ -1,9 +1,10 @@
 package org.akazukin.i18n.exception;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
 
 import java.util.Arrays;
 
@@ -15,9 +16,10 @@ import java.util.Arrays;
  * to the expected format or contains invalid characters for i18n operations.
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Getter
 public class IllegalI18nKeyException extends IllegalStateException {
     private static final long serialVersionUID = -4960131954566653551L;
-    I18nLang lang;
+    II18nLang lang;
     String[] keys;
 
     /**
@@ -27,7 +29,8 @@ public class IllegalI18nKeyException extends IllegalStateException {
      * @param key  the invalid key that caused this exception
      * @throws NullPointerException if lang or key is null
      */
-    public IllegalI18nKeyException(@NonNull final I18nLang lang, @NonNull final String key) {
+    public IllegalI18nKeyException(
+            @NonNull final II18nLang lang, @NonNull final String key) {
         this(lang, new String[]{key});
     }
 
@@ -38,7 +41,8 @@ public class IllegalI18nKeyException extends IllegalStateException {
      * @param keys the invalid keys that caused this exception
      * @throws NullPointerException if lang or keys is null
      */
-    public IllegalI18nKeyException(@NonNull final I18nLang lang, @NonNull final String[] keys) {
+    public IllegalI18nKeyException(
+            @NonNull final II18nLang lang, @NonNull final String[] keys) {
         super("The i18n key is invalid.  | Langs: " + lang + "  | Key: " + Arrays.toString(keys));
         this.keys = keys;
         this.lang = lang;

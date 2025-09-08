@@ -1,5 +1,7 @@
 package org.akazukin.i18n.config;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.io.File;
 
 /**
@@ -13,26 +15,26 @@ public interface II18nResourceConfig {
      *
      * @return the ClassLoader for resource loading operations. Must not be {@code null}.
      */
-    ClassLoader getClassLoader();
+    @NotNull ClassLoader getClassLoader();
 
     /**
      * Returns the domain identifier for the i18n resource namespace.
      *
      * @return the domain identifier string. Must not be {@code null}.
      */
-    String getDomain();
+    @NotNull String getDomain();
 
     /**
      * Returns the unique application identifier used for resource organization.
      *
      * @return the application identifier string. Must not be {@code null}.
      */
-    String getAppId();
+    @NotNull String getAppId();
 
     /**
      * Returns the data folder where custom i18n resource files are stored.
      *
      * @return the data folder File object. Must not be {@code null}.
      */
-    File getDataFolder();
+    @NotNull File getDataFolder();
 }

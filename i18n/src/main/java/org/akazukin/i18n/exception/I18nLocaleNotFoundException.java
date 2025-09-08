@@ -3,8 +3,8 @@ package org.akazukin.i18n.exception;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.experimental.FieldDefaults;
-import org.akazukin.i18n.manager.data.I18nLang;
-import org.akazukin.i18n.object.I18nObject;
+import org.akazukin.i18n.manager.data.II18nLang;
+import org.akazukin.i18n.object.II18nObject;
 
 import java.util.Arrays;
 
@@ -17,9 +17,9 @@ import java.util.Arrays;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class I18nLocaleNotFoundException extends IllegalStateException {
     private static final long serialVersionUID = -4960131954566653551L;
-    I18nLang[] langs;
+    II18nLang[] langs;
     String keys;
-    I18nObject i18n;
+    II18nObject i18n;
 
     /**
      * Constructs a new I18nLocaleNotFoundException with the specified languages and key.
@@ -28,7 +28,8 @@ public class I18nLocaleNotFoundException extends IllegalStateException {
      * @param key   the key that was not found in the specified languages
      * @throws NullPointerException if langs or key is null
      */
-    public I18nLocaleNotFoundException(@NonNull final I18nLang[] langs, @NonNull final String key) {
+    public I18nLocaleNotFoundException(
+            @NonNull final II18nLang[] langs, @NonNull final String key) {
         super("The i18n key is not found.  | Lang: " + Arrays.toString(langs) + "  | Key: " + key);
         this.keys = key;
         this.i18n = null;
@@ -42,7 +43,8 @@ public class I18nLocaleNotFoundException extends IllegalStateException {
      * @param i18n  the i18n object that was not found in the specified languages
      * @throws NullPointerException if langs or i18n is null
      */
-    public I18nLocaleNotFoundException(@NonNull final I18nLang[] langs, @NonNull final I18nObject i18n) {
+    public I18nLocaleNotFoundException(
+            @NonNull final II18nLang[] langs, @NonNull final II18nObject i18n) {
         super("The i18n key is not found.  | Lang: " + Arrays.toString(langs) + "  | I18n: " + i18n);
         this.keys = null;
         this.i18n = i18n;

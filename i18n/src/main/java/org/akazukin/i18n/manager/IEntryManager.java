@@ -2,43 +2,48 @@ package org.akazukin.i18n.manager;
 
 import org.akazukin.i18n.exception.I18nLocaleAlreadyExistsException;
 import org.akazukin.i18n.exception.IllegalI18nKeyException;
-import org.akazukin.i18n.manager.data.I18nEntry;
-import org.akazukin.i18n.manager.data.I18nLang;
-import org.akazukin.util.interfaces.Reloadable;
+import org.akazukin.i18n.manager.data.II18nEntry;
+import org.akazukin.i18n.manager.data.II18nLang;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Interface for managing internationalization (i18n) entries across different languages.
  * This interface provides the core functionality for loading, storing, and managing
  * localized data entries for various locales in an i18n system.
- * <p>
- * This interface extends {@link Reloadable} to provide reload functionality
- * for refreshing all loaded entries from their source files.
  */
-public interface IEntryManager extends Reloadable {
+public interface IEntryManager {
     /**
      * Loads localization data for the specified language.
-     * Creates a new {@link I18nEntry} and loads its content from the
+     * Creates a new {@link II18nEntry} and loads its content from the
      * corresponding language resource file.
      *
      * @param lang the language to load. Must not be {@code null}.
      * @throws I18nLocaleAlreadyExistsException if an entry for this language already exists
      * @throws IllegalI18nKeyException          if the loaded data contains invalid i18n keys
      */
-    void load(I18nLang lang) throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
+    void load(@NotNull II18nLang lang)
+            throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
 
     /**
      * Loads localization data for multiple languages in a single operation.
-     * This is a convenience method that calls {@link #load(I18nLang)}
+     * This is a convenience method that calls {@link #load(II18nLang)}
      * for each provided language.
      *
      * @param langs the languages to load. Must not be {@code null}.
      * @throws I18nLocaleAlreadyExistsException if any entry for these languages already exists
      * @throws IllegalI18nKeyException          if any loaded data contains invalid i18n keys
      */
-    void load(I18nLang... langs) throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
+    void load(@NotNull II18nLang... langs)
+            throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
 
-    void reload(I18nLang lang);
+
+    /**
+     * Reloads localization data for the specified language.
+     *
+     * @param lang the language to reload. Must not be {@code null}.
+     */
+    void reload(@NotNull II18nLang lang);
 
     /**
      * Reloads all currently loaded entries from their source files.
@@ -51,8 +56,16 @@ public interface IEntryManager extends Reloadable {
      *
      * @throws IllegalI18nKeyException if any reloaded data contains invalid i18n keys
      */
-    @Override
     void reload();
+
+    /**
+     * Retrieves all distinct languages associated with the current collection of i18n entries.
+     * Each language is constructed from the {@link II18nEntry#getLang()} method of the entries.
+     *
+     * @return an array of {@link II18nLang} instances representing the languages found in the entries.
+     * The resulting array may be empty if no entries are available.
+     */
+    @NotNull II18nLang[] getLangs();
 
     /**
      * Retrieves the i18n entry for the specified language.
@@ -61,8 +74,7 @@ public interface IEntryManager extends Reloadable {
      * @param lang the language to retrieve. Must not be {@code null}.
      * @return the i18n entry for the specified language, or {@code null} if no entry exists
      */
-    @Nullable
-    I18nEntry getEntry(I18nLang lang);
+    @Nullable II18nEntry getEntry(@NotNull II18nLang lang);
 
     /**
      * Stores or updates an i18n entry in the manager.
@@ -71,7 +83,7 @@ public interface IEntryManager extends Reloadable {
      *
      * @param entry the entry to store. Must not be {@code null}.
      */
-    void putEntry(I18nEntry entry);
+    void putEntry(@NotNull II18nEntry entry);
 
     /**
      * Removes the i18n entry for the specified language from the manager.
@@ -79,7 +91,7 @@ public interface IEntryManager extends Reloadable {
      *
      * @param lang the language whose entry should be removed. Must not be {@code null}.
      */
-    void removeEntry(I18nLang lang);
+    void removeEntry(@NotNull II18nLang lang);
 
     /**
      * Checks whether an entry exists for the specified language.
@@ -89,7 +101,7 @@ public interface IEntryManager extends Reloadable {
      * @param lang the language to check. Must not be {@code null}.
      * @return {@code true} if an entry exists for the specified language, {@code false} otherwise
      */
-    boolean hasEntry(I18nLang lang);
+    boolean hasEntry(@NotNull II18nLang lang);
 
     /**
      * Retrieves all currently loaded i18n entries.
@@ -98,5 +110,5 @@ public interface IEntryManager extends Reloadable {
      *
      * @return an array of all loaded i18n entries. Never {@code null}, but may be empty.
      */
-    I18nEntry[] getEntries();
+    @NotNull II18nEntry[] getEntries();
 }

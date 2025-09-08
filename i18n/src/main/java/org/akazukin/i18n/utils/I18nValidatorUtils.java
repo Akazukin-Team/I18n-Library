@@ -1,7 +1,8 @@
 package org.akazukin.i18n.utils;
 
 import lombok.experimental.UtilityClass;
-import org.akazukin.i18n.manager.data.I18nEntry;
+import org.akazukin.i18n.manager.data.II18nEntry;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -13,23 +14,23 @@ public class I18nValidatorUtils {
     public final String ID_REGEX = KEY_REGEX + "(\\." + KEY_REGEX + ")*";
     private final Pattern ID_PATTERN = Pattern.compile(ID_REGEX);
 
-    public boolean isValid(final I18nEntry entry) {
+    public boolean isValid(@NotNull final II18nEntry entry) {
         return entry.getEntries()
                 .keySet()
                 .stream()
                 .allMatch(I18nValidatorUtils::isValidId);
     }
 
-    public boolean isValidId(final String id) {
+    public boolean isValidId(@NotNull final String id) {
         return ID_PATTERN.matcher(id).matches();
     }
 
-    public boolean isValidIds(final String... ids) {
+    public boolean isValidIds(@NotNull final String... ids) {
         return Arrays.stream(ids)
                 .allMatch(I18nValidatorUtils::isValidId);
     }
 
-    public boolean isValidIds(final Collection<String> ids) {
+    public boolean isValidIds(@NotNull final Collection<String> ids) {
         return ids.stream()
                 .allMatch(I18nValidatorUtils::isValidId);
     }

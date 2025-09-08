@@ -1,12 +1,12 @@
 package org.akazukin.i18n.manager.data;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
@@ -16,20 +16,22 @@ import java.util.Objects;
  * <p>
  * This class is immutable.
  */
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Getter
 @ToString
 @EqualsAndHashCode
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public final class I18nLang {
-    public static final I18nLang FALLBACK = new I18nLang("default", "Default");
-    public static final I18nLang[] EMPTY_ARR = {};
-
-    @NonNull
+public final class I18nLang implements II18nLang {
     String id;
     String displayName;
 
-    public boolean equalsId(final I18nLang other) {
-        return Objects.equals(this.id, other.id);
+    public I18nLang(
+            @NotNull final String id, @Nullable final String displayName) {
+        this.id = id;
+        this.displayName = displayName;
+    }
+
+    @Override
+    public boolean equalsId(@NotNull final II18nLang other) {
+        return Objects.equals(this.getId(), other.getId());
     }
 }
