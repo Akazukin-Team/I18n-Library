@@ -1,6 +1,6 @@
 package org.akazukin.i18n.manager;
 
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,8 +17,7 @@ public interface II18nFormatter {
      *
      * @return the fallback language, or null if no fallback is set
      */
-    @Nullable
-    I18nLang getFallbackLang();
+    @Nullable II18nLang getFallbackLang();
 
     /**
      * Sets the default locale for the application.
@@ -27,7 +26,7 @@ public interface II18nFormatter {
      *
      * @param lang the fallback locale string to be set.
      */
-    void setFallbackLang(I18nLang lang);
+    void setFallbackLang(@Nullable II18nLang lang);
 
     /**
      * Formats a message using the specified message ID and language preferences.
@@ -40,8 +39,8 @@ public interface II18nFormatter {
      * @param args  optional arguments for message formatting
      * @return the formatted message, or null if the message ID is not found
      */
-    @Nullable
-    String formatMessage(String id, @NotNull I18nLang[] langs, Object... args);
+    @Nullable String formatMessage(
+            @NotNull String id, @NotNull II18nLang[] langs, @Nullable Object... args);
 
     /**
      * Formats a message using the specified message ID and language preferences.
@@ -55,6 +54,6 @@ public interface II18nFormatter {
      * @return the formatted message (never null)
      * @throws RuntimeException if the message ID is not found
      */
-    @NotNull
-    String formatMessageThrown(String id, @NotNull I18nLang[] langs, Object... args);
+    @NotNull String formatMessageThrown(
+            @NotNull String id, @NotNull II18nLang[] langs, @Nullable Object... args);
 }

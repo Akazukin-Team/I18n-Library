@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -22,7 +22,7 @@ import java.io.File;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Builder(setterPrefix = "set")
 @Getter
-public class I18nManagerConfig implements II18nManagerConfig {
+public final class I18nManagerConfig implements II18nManagerConfig {
     @NotNull
     ClassLoader classLoader;
     @NotNull
@@ -32,7 +32,7 @@ public class I18nManagerConfig implements II18nManagerConfig {
     @NotNull
     File dataFolder;
     @NotNull
-    I18nLang fallbackLang;
+    II18nLang fallbackLang;
     @NotNull
-    I18nLang[] langs;
+    II18nLang[] langs;
 }

@@ -1,6 +1,7 @@
 package org.akazukin.i18n.config;
 
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -19,13 +20,12 @@ public interface II18nManagerConfig extends II18nResourceConfig {
      *
      * @return an array of supported languages. Must not be {@code null} or empty.
      */
-    I18nLang[] getLangs();
+    @NotNull II18nLang[] getLangs();
 
     /**
      * Returns the fallback language used when a translation is not found in the requested language.
      *
      * @return the fallback language. Can be {@code null} if no fallback is set.
      */
-    @Nullable
-    I18nLang getFallbackLang();
+    @Nullable II18nLang getFallbackLang();
 }

@@ -1,5 +1,7 @@
 package org.akazukin.i18n.manager;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Central interface for managing internationalization (i18n) operations.
  * This interface provides access to the core components of the i18n system,
@@ -16,7 +18,7 @@ public interface II18nManager {
      *
      * @return the entry manager instance. Must not be {@code null}.
      */
-    IEntryManager getEntryMgr();
+    @NotNull IEntryManager getEntryMgr();
 
     /**
      * Retrieves the formatter responsible for processing and formatting
@@ -24,5 +26,5 @@ public interface II18nManager {
      *
      * @return the formatter instance. Must not be {@code null}.
      */
-    II18nFormatter getFormatter();
+    @NotNull II18nFormatter getFormatter();
 }

@@ -5,11 +5,7 @@ import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.akazukin.i18n.config.II18nManagerConfig;
-import org.akazukin.i18n.utils.I18nValidatorUtils;
-import org.akazukin.util.interfaces.Reloadable;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.regex.Pattern;
 
 /**
  * Utility class for managing and retrieving internationalized strings (i18n).
@@ -24,15 +20,11 @@ import java.util.regex.Pattern;
  * - Hierarchical fallback to default locale strings when a key is unavailable
  * in the desired locale.
  * - Dynamic reloading of localization data.
- * <p>
- * Implements the {@link Reloadable} interface to provide reload functionality.
  */
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @Slf4j
 @Getter
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class I18nManager implements II18nManager {
-    public static final Pattern REGEX_I18N = Pattern.compile("<\\$(" + I18nValidatorUtils.ID_REGEX + ")>");
-
+public final class I18nManager implements II18nManager {
     IEntryManager entryMgr;
     II18nFormatter formatter;
 
@@ -53,10 +45,10 @@ public class I18nManager implements II18nManager {
      *               Must not be {@code null}.
      * @return a new {@link II18nManager} instance configured using the provided parameters.
      */
-    public static II18nManager create(@NotNull final II18nManagerConfig config) {
+    public static @NotNull II18nManager create(@NotNull final II18nManagerConfig config) {
         final IEntryManager entryMgr = new EntryManager(config);
         final II18nFormatter formatter = new I18nFormatter(entryMgr);
-        return create(config, entryMgr, formatter);
+        return new I18nManager(config, entryMgr, formatter);
     }
 
     /**
@@ -70,8 +62,8 @@ public class I18nManager implements II18nManager {
      *                  Must not be {@code null}.
      * @return a new {@link II18nManager} instance initialized with the given parameters.
      */
-    public static II18nManager create(@NotNull final II18nManagerConfig config,
-                                      @NotNull final IEntryManager entryMgr, @NotNull final II18nFormatter formatter) {
+    public static @NotNull II18nManager create(@NotNull final II18nManagerConfig config,
+                                               @NotNull final IEntryManager entryMgr, @NotNull final II18nFormatter formatter) {
         return new I18nManager(config, entryMgr, formatter);
     }
 }

@@ -7,8 +7,9 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.akazukin.i18n.exception.I18nLocaleNotFoundException;
 import org.akazukin.i18n.manager.II18nFormatter;
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Represents an internationalization (i18n) resource that encapsulates a message identifier and
@@ -18,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 @EqualsAndHashCode
 @ToString
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public final class I18n implements I18nObject {
+public final class I18n implements II18nObject {
     String id;
     Object[] args;
 
@@ -32,7 +33,7 @@ public final class I18n implements I18nObject {
      * @param id   the message identifier used to look up the localized message template
      * @param args optional arguments for dynamic content generation in the message
      */
-    public I18n(final String id, final Object... args) {
+    public I18n(@NotNull final String id, @Nullable final Object... args) {
         this.id = id;
         this.args = args;
     }
@@ -49,7 +50,8 @@ public final class I18n implements I18nObject {
      * @param args optional arguments for dynamic content generation in the message
      * @return a new I18n instance configured with the provided identifier and arguments
      */
-    public static I18n of(final String id, final Object... args) {
+    public static @NotNull I18n of(
+            @NotNull final String id, @Nullable final Object... args) {
         return new I18n(id, args);
     }
 
@@ -68,7 +70,8 @@ public final class I18n implements I18nObject {
      * @return the localized string for the first available locale, or {@code null} if none can be resolved
      */
     @Override
-    public String build(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) {
+    public @Nullable String build(
+            @NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales) {
         return formatter.formatMessage(this.id, locales, this.args);
     }
 
@@ -88,7 +91,9 @@ public final class I18n implements I18nObject {
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for any locale
      */
     @Override
-    public @NotNull String buildRequired(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) throws I18nLocaleNotFoundException {
+    public @NotNull String buildRequired(
+            @NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales)
+            throws I18nLocaleNotFoundException {
         return formatter.formatMessageThrown(this.id, locales, this.args);
     }
 }

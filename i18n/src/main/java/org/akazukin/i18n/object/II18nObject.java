@@ -2,7 +2,7 @@ package org.akazukin.i18n.object;
 
 import org.akazukin.i18n.exception.I18nLocaleNotFoundException;
 import org.akazukin.i18n.manager.II18nFormatter;
-import org.akazukin.i18n.manager.data.I18nLang;
+import org.akazukin.i18n.manager.data.II18nLang;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
  * support locale fallback mechanisms to ensure graceful degradation
  * when specific locales are unavailable.
  */
-public interface I18nObject {
+public interface II18nObject {
     /**
      * Builds a localized string using only the fallback locale.
      * <p>
@@ -31,7 +31,7 @@ public interface I18nObject {
      */
     @Nullable
     default String buildByFallback(@NotNull final II18nFormatter formatter) {
-        return this.build(formatter, I18nLang.FALLBACK);
+        return this.build(formatter, II18nLang.FALLBACK);
     }
 
     /**
@@ -48,7 +48,7 @@ public interface I18nObject {
      * @return the localized string for the first available locale, or {@code null} if none can be resolved
      */
     @Nullable
-    String build(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales);
+    String build(@NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales);
 
     /**
      * Builds a localized string for the specified locales with fallback support.
@@ -65,10 +65,11 @@ public interface I18nObject {
      * @return the localized string for the first available locale with fallback, or {@code null} if none can be resolved
      */
     @Nullable
-    default String buildWithFallback(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) {
-        final I18nLang[] newLocales = new I18nLang[locales.length + 1];
+    default String buildWithFallback(
+            @NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales) {
+        final II18nLang[] newLocales = new II18nLang[locales.length + 1];
         System.arraycopy(locales, 0, newLocales, 0, locales.length);
-        newLocales[locales.length] = I18nLang.FALLBACK;
+        newLocales[locales.length] = II18nLang.FALLBACK;
 
         return this.build(formatter, newLocales);
     }
@@ -85,8 +86,9 @@ public interface I18nObject {
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for the fallback locale
      */
     @NotNull
-    default String buildRequiredByFallback(@NotNull final II18nFormatter formatter) throws I18nLocaleNotFoundException {
-        return this.buildRequired(formatter, I18nLang.FALLBACK);
+    default String buildRequiredByFallback(@NotNull final II18nFormatter formatter)
+            throws I18nLocaleNotFoundException {
+        return this.buildRequired(formatter, II18nLang.FALLBACK);
     }
 
     /**
@@ -103,8 +105,9 @@ public interface I18nObject {
      * @return the localized string for the first available locale. Must not be {@code null}.
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for any locale
      */
-    @NotNull
-    String buildRequired(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) throws I18nLocaleNotFoundException;
+    @NotNull String buildRequired(
+            @NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales)
+            throws I18nLocaleNotFoundException;
 
     /**
      * Builds a localized string for the specified locales with fallback support, throwing an exception if unsuccessful.
@@ -121,11 +124,12 @@ public interface I18nObject {
      * @return the localized string for the first available locale with fallback. Must not be {@code null}.
      * @throws I18nLocaleNotFoundException if the message cannot be resolved for any locale with fallback
      */
-    @NotNull
-    default String buildRequiredWithFallback(@NotNull final II18nFormatter formatter, @NotNull final I18nLang... locales) throws I18nLocaleNotFoundException {
-        final I18nLang[] newLocales = new I18nLang[locales.length + 1];
+    default @NotNull String buildRequiredWithFallback(
+            @NotNull final II18nFormatter formatter, @NotNull final II18nLang... locales)
+            throws I18nLocaleNotFoundException {
+        final II18nLang[] newLocales = new II18nLang[locales.length + 1];
         System.arraycopy(locales, 0, newLocales, 0, locales.length);
-        newLocales[locales.length] = I18nLang.FALLBACK;
+        newLocales[locales.length] = II18nLang.FALLBACK;
 
         return this.buildRequired(formatter, newLocales);
     }

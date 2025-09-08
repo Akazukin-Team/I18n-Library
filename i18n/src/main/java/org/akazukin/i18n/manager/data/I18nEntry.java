@@ -1,11 +1,9 @@
 package org.akazukin.i18n.manager.data;
 
 import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
@@ -20,45 +18,48 @@ import java.util.Map;
  * Represents an entry in i18n.
  * Each entry is associated with a specific language and contains a collection of localized strings.
  * <p>
- * Instances of this class are immutable with respect to the {@link I18nLang}.
+ * Instances of this class are immutable with respect to the {@link II18nLang}.
  * However, the map of entries can be modified after creation.
  */
-@AllArgsConstructor
-@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
 @ToString
 @EqualsAndHashCode
-@FieldDefaults(level = AccessLevel.PRIVATE)
-public final class I18nEntry {
-    public static final I18nEntry[] EMPTY_ARR = {};
-
+public final class I18nEntry implements II18nEntry {
     @NonNull
-    final I18nLang lang;
+    final II18nLang lang;
     @Setter
     @Nullable
-    Map<String, String> entries = new HashMap<>();
+    Map<String, String> entries;
 
-    @Nullable
-    public synchronized String getEntry(final String id) {
+    public I18nEntry(@NonNull final II18nLang lang) {
+        this.lang = lang;
+        this.entries = new HashMap<>();
+    }
+
+    @Override
+    public synchronized @Nullable String getEntry(@NotNull final String id) {
         if (this.entries == null) {
             return null;
         }
         return this.entries.get(id);
     }
 
-    public synchronized boolean hasEntryId(final String id) {
+    @Override
+    public synchronized boolean hasEntryId(@NotNull final String id) {
         if (this.entries == null) {
             return false;
         }
         return this.entries.containsKey(id);
     }
 
-    @NotNull
-    public synchronized String[] getEntryIds() {
+    @Override
+    public synchronized @NotNull String[] getEntryIds() {
         if (this.entries == null) {
             return Constants.EMPTY_STR_ARR;
         }
-        return this.entries.keySet().toArray(Constants.EMPTY_STR_ARR);
+        return this.entries.keySet()
+                .toArray(Constants.EMPTY_STR_ARR);
     }
 
     @Override
