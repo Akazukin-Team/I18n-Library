@@ -40,7 +40,7 @@ public interface II18nFormatter {
      * @return the formatted message, or null if the message ID is not found
      */
     @Nullable String formatMessage(
-            @NotNull String id, @NotNull II18nLang[] langs, @Nullable Object... args);
+            @NotNull String id, @NotNull II18nLang[] langs, Object... args);
 
     /**
      * Formats a message using the specified message ID and language preferences.
@@ -55,5 +55,5 @@ public interface II18nFormatter {
      * @throws RuntimeException if the message ID is not found
      */
     @NotNull String formatMessageThrown(
-            @NotNull String id, @NotNull II18nLang[] langs, @Nullable Object... args);
+            @NotNull String id, @NotNull II18nLang[] langs, Object... args);
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.akazukin.i18n.Constants;
+import org.akazukin.resource.identifier.IResourceIdentifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -28,13 +29,15 @@ import java.util.Map;
 public final class I18nEntry implements II18nEntry {
     @NonNull
     final II18nLang lang;
+    @NotNull
+    final IResourceIdentifier identifier;
     @Setter
     @Nullable
-    Map<String, String> entries;
+    Map<String, String> entries = new HashMap<>();
 
-    public I18nEntry(@NonNull final II18nLang lang) {
+    public I18nEntry(@NonNull final II18nLang lang, @NotNull final IResourceIdentifier identifier) {
         this.lang = lang;
-        this.entries = new HashMap<>();
+        this.identifier = identifier;
     }
 
     @Override

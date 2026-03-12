@@ -24,8 +24,11 @@ public final class I18nLang implements II18nLang {
     String id;
     String displayName;
 
-    public I18nLang(
-            @NotNull final String id, @Nullable final String displayName) {
+    public I18nLang(@NotNull final String id) {
+        this(id, id);
+    }
+
+    public I18nLang(@NotNull final String id, @Nullable final String displayName) {
         this.id = id;
         this.displayName = displayName;
     }
