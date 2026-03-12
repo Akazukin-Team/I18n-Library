@@ -31,23 +31,22 @@ public final class I18nFormatter implements II18nFormatter {
 
     @Override
     public @Nullable String formatMessage(
-            @NotNull final String id, @NotNull final II18nLang[] langs, @NonNull final Object... args) {
+            @NotNull final String id, @NotNull final II18nLang[] langs, final Object... args) {
         String i18n = null;
-        for (II18nLang l : langs) {
-            if (l.equalsId(II18nLang.FALLBACK)) {
+        for (II18nLang lang : langs) {
+            if (lang.equalsId(II18nLang.FALLBACK)) {
                 if (this.fallbackLang == null) {
                     continue;
                 }
-                l = this.fallbackLang;
+                lang = this.fallbackLang;
             }
 
-            final II18nEntry localeSet = this.entryMgr.getEntry(l);
-            if (localeSet == null) {
-                continue;
-            }
-            i18n = localeSet.getEntry(id);
-            if (i18n != null) {
-                break;
+            final II18nEntry[] entries = this.entryMgr.getEntries(lang);
+            for (final II18nEntry entry : entries) {
+                i18n = entry.getEntry(id);
+                if (i18n != null) {
+                    break;
+                }
             }
         }
         if (i18n == null) {
@@ -67,12 +66,11 @@ public final class I18nFormatter implements II18nFormatter {
                 continue;
             }
 
-            if (args[i] != null && args[i] instanceof II18nObject) {
+            if (args[i] instanceof II18nObject) {
                 args[i] = ((II18nObject) args[i]).build(this, langs);
             }
 
-            i18n = i18n.replace("<args[" + i + "]>",
-                    args[i] != null ? String.valueOf(args[i]) : "");
+            i18n = i18n.replace("<args[" + i + "]>", String.valueOf(args[i]));
         }
 
         return i18n;
@@ -83,21 +81,20 @@ public final class I18nFormatter implements II18nFormatter {
             @NotNull final String id, @NotNull final II18nLang[] langs, @NonNull final Object... args)
             throws I18nLocaleNotFoundException {
         String i18n = null;
-        for (II18nLang l : langs) {
-            if (l == II18nLang.FALLBACK) {
+        for (II18nLang lang : langs) {
+            if (lang.equalsId(II18nLang.FALLBACK)) {
                 if (this.fallbackLang == null) {
                     continue;
                 }
-                l = this.fallbackLang;
+                lang = this.fallbackLang;
             }
 
-            final II18nEntry localeSet = this.entryMgr.getEntry(l);
-            if (localeSet == null) {
-                continue;
-            }
-            i18n = localeSet.getEntry(id);
-            if (i18n != null) {
-                break;
+            final II18nEntry[] entries = this.entryMgr.getEntries(lang);
+            for (final II18nEntry entry : entries) {
+                i18n = entry.getEntry(id);
+                if (i18n != null) {
+                    break;
+                }
             }
         }
         if (i18n == null) {
@@ -117,12 +114,11 @@ public final class I18nFormatter implements II18nFormatter {
                 continue;
             }
 
-            if (args[i] != null && args[i] instanceof II18nObject) {
+            if (args[i] instanceof II18nObject) {
                 args[i] = ((II18nObject) args[i]).buildRequired(this, langs);
             }
 
-            i18n = i18n.replace("<args[" + i + "]>",
-                    args[i] != null ? String.valueOf(args[i]) : "");
+            i18n = i18n.replace("<args[" + i + "]>", String.valueOf(args[i]));
         }
 
         return i18n;

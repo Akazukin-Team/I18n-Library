@@ -1,11 +1,10 @@
 package org.akazukin.i18n.manager;
 
-import org.akazukin.i18n.exception.I18nLocaleAlreadyExistsException;
 import org.akazukin.i18n.exception.IllegalI18nKeyException;
 import org.akazukin.i18n.manager.data.II18nEntry;
 import org.akazukin.i18n.manager.data.II18nLang;
+import org.akazukin.resource.identifier.IResourceIdentifier;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Interface for managing internationalization (i18n) entries across different languages.
@@ -19,11 +18,9 @@ public interface IEntryManager {
      * corresponding language resource file.
      *
      * @param lang the language to load. Must not be {@code null}.
-     * @throws I18nLocaleAlreadyExistsException if an entry for this language already exists
-     * @throws IllegalI18nKeyException          if the loaded data contains invalid i18n keys
+     * @throws IllegalI18nKeyException if the loaded data contains invalid i18n keys
      */
-    void load(@NotNull II18nLang lang)
-            throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
+    void load(@NotNull II18nLang lang) throws IllegalI18nKeyException;
 
     /**
      * Loads localization data for multiple languages in a single operation.
@@ -31,11 +28,9 @@ public interface IEntryManager {
      * for each provided language.
      *
      * @param langs the languages to load. Must not be {@code null}.
-     * @throws I18nLocaleAlreadyExistsException if any entry for these languages already exists
-     * @throws IllegalI18nKeyException          if any loaded data contains invalid i18n keys
+     * @throws IllegalI18nKeyException if any loaded data contains invalid i18n keys
      */
-    void load(@NotNull II18nLang... langs)
-            throws I18nLocaleAlreadyExistsException, IllegalI18nKeyException;
+    void load(@NotNull II18nLang... langs) throws IllegalI18nKeyException;
 
 
     /**
@@ -67,6 +62,10 @@ public interface IEntryManager {
      */
     @NotNull II18nLang[] getLangs();
 
+    void load(@NotNull IResourceIdentifier identifier) throws IllegalI18nKeyException;
+
+    void removeEntry(@NotNull IResourceIdentifier identifier, @NotNull II18nLang lang);
+
     /**
      * Retrieves the i18n entry for the specified language.
      * Returns the entry containing all localized strings for the given language.
@@ -74,7 +73,8 @@ public interface IEntryManager {
      * @param lang the language to retrieve. Must not be {@code null}.
      * @return the i18n entry for the specified language, or {@code null} if no entry exists
      */
-    @Nullable II18nEntry getEntry(@NotNull II18nLang lang);
+    // TODO fix javadoc
+    II18nEntry[] getEntries(@NotNull II18nLang lang);
 
     /**
      * Stores or updates an i18n entry in the manager.
@@ -111,4 +111,8 @@ public interface IEntryManager {
      * @return an array of all loaded i18n entries. Never {@code null}, but may be empty.
      */
     @NotNull II18nEntry[] getEntries();
+
+    boolean hasEntry(@NotNull IResourceIdentifier identifier, @NotNull II18nLang lang);
+
+    boolean hasEntry(@NotNull IResourceIdentifier identifier);
 }

@@ -46,7 +46,7 @@ public final class I18nManager implements II18nManager {
      * @return a new {@link II18nManager} instance configured using the provided parameters.
      */
     public static @NotNull II18nManager create(@NotNull final II18nManagerConfig config) {
-        final IEntryManager entryMgr = new EntryManager(config);
+        final IEntryManager entryMgr = new EntryManager();
         final II18nFormatter formatter = new I18nFormatter(entryMgr);
         return new I18nManager(config, entryMgr, formatter);
     }
