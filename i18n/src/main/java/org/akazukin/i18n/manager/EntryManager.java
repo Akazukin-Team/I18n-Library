@@ -38,7 +38,7 @@ public final class EntryManager implements IEntryManager {
         if (this.hasEntry(identifier, lang)) {
             this.removeEntry(identifier, lang);
         }
-        this.forceLoad(identifier.toRelativeIdentifier(lang.getId()), lang);
+        this.forceLoad(identifier.toRelativeIdentifier(lang.getId() + ".lang"), lang);
     }
 
     private synchronized void forceLoad(final IResourceIdentifier identifier, @NotNull final II18nLang lang)
@@ -99,7 +99,7 @@ public final class EntryManager implements IEntryManager {
             this.entriesIdentifiers.add(identifier);
         }
         for (final II18nLang lang : this.entriesLangs) {
-            this.forceLoad(identifier.toRelativeIdentifier(lang.getId()), lang);
+            this.forceLoad(identifier.toRelativeIdentifier(lang.getId() + ".lang"), lang);
         }
     }
 
@@ -179,7 +179,7 @@ public final class EntryManager implements IEntryManager {
     private void forceLoad(@NotNull final II18nLang lang)
             throws IllegalI18nKeyException {
         for (final IResourceIdentifier identifier : this.entriesIdentifiers) {
-            this.forceLoad(identifier.toRelativeIdentifier(lang.getId()), lang);
+            this.forceLoad(identifier.toRelativeIdentifier(lang.getId() + ".lang"), lang);
         }
     }
 }
