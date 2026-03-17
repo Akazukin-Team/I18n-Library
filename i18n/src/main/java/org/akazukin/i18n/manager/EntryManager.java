@@ -43,6 +43,8 @@ public final class EntryManager implements IEntryManager {
 
     private synchronized void forceLoad(final IResourceIdentifier identifier, @NotNull final II18nLang lang)
             throws IllegalI18nKeyException {
+        log.debug("Loading localization resource. | Lang: " + lang.getId() + ", " + identifier);
+
         final Map<String, String> newProps;
         {
             // load resource as props
