@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.akazukin.i18n.exception.I18nLocaleNotFoundException;
 import org.akazukin.i18n.manager.data.II18nEntry;
 import org.akazukin.i18n.manager.data.II18nLang;
@@ -13,11 +14,13 @@ import org.akazukin.i18n.utils.I18nValidatorUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
+@Slf4j
 public final class I18nFormatter implements II18nFormatter {
     private static final Pattern REGEX_I18N = Pattern.compile("<\\$(" + I18nValidatorUtils.ID_REGEX + ")>");
 
@@ -32,6 +35,7 @@ public final class I18nFormatter implements II18nFormatter {
     @Override
     public @Nullable String formatMessage(
             @NotNull final String id, @NotNull final II18nLang[] langs, final Object... args) {
+        log.debug("formatMessage called with id: {}, langs: {}, args: {}", id, langs, Arrays.toString(args));
         String i18n = null;
         for (II18nLang lang : langs) {
             if (lang.equalsId(II18nLang.FALLBACK)) {
@@ -80,6 +84,7 @@ public final class I18nFormatter implements II18nFormatter {
     public @NotNull String formatMessageThrown(
             @NotNull final String id, @NotNull final II18nLang[] langs, @NonNull final Object... args)
             throws I18nLocaleNotFoundException {
+        log.debug("formatMessageThrown called with id: {}, langs: {}, args: {}", id, langs, Arrays.toString(args));
         String i18n = null;
         for (II18nLang lang : langs) {
             if (lang.equalsId(II18nLang.FALLBACK)) {
