@@ -37,6 +37,7 @@ public final class I18nFormatter implements II18nFormatter {
             @NotNull final String id, @NotNull final II18nLang[] langs, final Object... args) {
         log.debug("formatMessage called with id: {}, langs: {}, args: {}", id, langs, Arrays.toString(args));
         String i18n = null;
+        loop:
         for (II18nLang lang : langs) {
             if (lang.equalsId(II18nLang.FALLBACK)) {
                 if (this.fallbackLang == null) {
@@ -49,11 +50,14 @@ public final class I18nFormatter implements II18nFormatter {
             for (final II18nEntry entry : entries) {
                 i18n = entry.getEntry(id);
                 if (i18n != null) {
-                    break;
+                    break loop;
                 }
+                log.debug("formatMessage: not found id: {}, lang: {}, identifier: {}", id, lang, entry.getIdentifier());
             }
+            log.debug("formatMessage: not found id: {}, lang: {}", id, lang);
         }
         if (i18n == null) {
+            log.debug("formatMessage: not found id: {}", id);
             return null;
         }
 
@@ -86,6 +90,7 @@ public final class I18nFormatter implements II18nFormatter {
             throws I18nLocaleNotFoundException {
         log.debug("formatMessageThrown called with id: {}, langs: {}, args: {}", id, langs, Arrays.toString(args));
         String i18n = null;
+        loop:
         for (II18nLang lang : langs) {
             if (lang.equalsId(II18nLang.FALLBACK)) {
                 if (this.fallbackLang == null) {
@@ -98,9 +103,11 @@ public final class I18nFormatter implements II18nFormatter {
             for (final II18nEntry entry : entries) {
                 i18n = entry.getEntry(id);
                 if (i18n != null) {
-                    break;
+                    break loop;
                 }
+                log.debug("formatMessageThrown: not found id: {}, lang: {}, identifier: {}", id, lang, entry.getIdentifier());
             }
+            log.debug("formatMessageThrown: not found id: {}, lang: {}", id, lang);
         }
         if (i18n == null) {
             throw new I18nLocaleNotFoundException(langs, id);
